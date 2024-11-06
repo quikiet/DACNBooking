@@ -2,9 +2,5 @@
 @extends('livewire.admin.dashboard')
 
 @section('content')
-    @livewire('admin.components.type-room-table')
+@livewire('admin.components.type-room-table')
 @endsection
-
-<script>
-    
-</script>

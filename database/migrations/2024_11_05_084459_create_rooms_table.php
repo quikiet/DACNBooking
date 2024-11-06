@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,10 +14,10 @@ return new class extends Migration
             $table->id('room_id');
             $table->string('name');
             $table->string('room_number');
-            $table->enum('status',['Trống','Đang sử dụng','Bảo trì'])->default('Trống');
+            $table->enum('status', ['Trống', 'Đang sử dụng', 'Bảo trì'])->default('Trống');
             $table->foreignId('room_type_id') // Khóa ngoại
-                  ->constrained('room_types','room_type_id') // Liên kết với bảng type_rooms
-                  ->onDelete('cascade');
+                ->constrained('room_types', 'room_type_id')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
