@@ -15,7 +15,7 @@ class TypeRoom extends Model
     protected $primaryKey = 'room_type_id';
 
     public $timestamps = true;
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'price',
         'adult',
@@ -23,7 +23,8 @@ class TypeRoom extends Model
         'description',
     ];
 
-    public function rooms(){
-        return $this->hasMany(Room::class,'room_type_id');
+    public function rooms()
+    {
+        return $this->hasMany(Room::class, 'room_type_id');
     }
 }

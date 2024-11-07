@@ -22,6 +22,11 @@ Route::get('admin/home-dash', function () {
 Route::get('admin/type-room', function () {
     return view('livewire.admin.typeroom-dash');
 })->name('admin.tr-dash');
+
+Route::get('admin/rooms', function () {
+    return view('livewire.admin.room-dash');
+})->name('admin.room-dash');
+
 // Route::get('admin/room-type', TypeRoomTable::class)->name('admin.room-type');
 
 require __DIR__ . '/auth.php';

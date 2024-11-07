@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id('room_id');
             $table->string('name');
             $table->string('room_number');
-            $table->enum('status', ['Trống', 'Đang sử dụng', 'Bảo trì'])->default('Trống');
+            $table->enum('status', ['available', 'booked', 'fixing', 'occupied'])->default('available');
             $table->foreignId('room_type_id') // Khóa ngoại
                 ->constrained('room_types', 'room_type_id')
                 ->onDelete('cascade');

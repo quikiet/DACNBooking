@@ -9,7 +9,7 @@ use Livewire\Component;
 class TypeRoomTable extends Component
 {
     public $type_Rooms; // Khai báo thuộc tính để lưu trữ dữ liệu
-    public RoomTypeForm $romeTypeForm;
+    public RoomTypeForm $roomTypeForm;
 
     public $typeRoomId;
     public $name;
@@ -26,7 +26,7 @@ class TypeRoomTable extends Component
     public function add()
     {
         $this->validate();
-        TypeRoom::create($this->romeTypeForm->pull());
+        TypeRoom::create($this->roomTypeForm->pull());
         $this->type_Rooms = TypeRoom::all();
         session()->flash('message', 'Thêm loại phòng thành công!');
         $this->dispatch('close-modal');
@@ -51,22 +51,22 @@ class TypeRoomTable extends Component
     {
         $TypeRoom = TypeRoom::find($id);
         $this->typeRoomId = $TypeRoom->room_type_id;
-        $this->romeTypeForm->name = $TypeRoom->name;
-        $this->romeTypeForm->price = $TypeRoom->price;
-        $this->romeTypeForm->adult = $TypeRoom->adult;
-        $this->romeTypeForm->children = $TypeRoom->children;
-        $this->romeTypeForm->description = $TypeRoom->description;
+        $this->roomTypeForm->name = $TypeRoom->name;
+        $this->roomTypeForm->price = $TypeRoom->price;
+        $this->roomTypeForm->adult = $TypeRoom->adult;
+        $this->roomTypeForm->children = $TypeRoom->children;
+        $this->roomTypeForm->description = $TypeRoom->description;
     }
 
     public function update()
     {
         $this->validate();
         TypeRoom::where('room_type_id', $this->typeRoomId)->update([
-            'name' => $this->romeTypeForm->name,
-            'price' => $this->romeTypeForm->price,
-            'adult' => $this->romeTypeForm->adult,
-            'children' => $this->romeTypeForm->children,
-            'description' => $this->romeTypeForm->description,
+            'name' => $this->roomTypeForm->name,
+            'price' => $this->roomTypeForm->price,
+            'adult' => $this->roomTypeForm->adult,
+            'children' => $this->roomTypeForm->children,
+            'description' => $this->roomTypeForm->description,
         ]);
         session()->flash('message', "Cập nhật thành công");
         $this->dispatch('close-modal');

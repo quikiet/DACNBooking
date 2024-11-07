@@ -15,15 +15,6 @@
                 <span class="sr-only">Check icon</span>
             </div>
             <div class="ms-3 text-sm font-normal">{{session('message')}}</div>
-            <button type="button"
-                class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
-                data-dismiss-target="#toast-success" aria-label="Close">
-                <span class="sr-only">Close</span>
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                </svg>
-            </button>
         </div>
     @endif
     <div class="container relative p-6 overflow-x-auto sm:rounded-lg" x-data="{open : false}"
@@ -68,14 +59,14 @@
                                     <label for="name"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên kiểu
                                         phòng</label>
-                                    <input type="text" name="name" id="name" wire:model="romeTypeForm.name"
+                                    <input type="text" name="name" id="name" wire:model="roomTypeForm.name"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Type product name" required="">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="price"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giá</label>
-                                    <input type="number" wire:model="romeTypeForm.price"
+                                    <input type="number" wire:model="roomTypeForm.price"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="$2999" required="">
                                 </div>
@@ -83,7 +74,7 @@
                                     <label for="price"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Người
                                         lớn</label>
-                                    <input type="number" wire:model="romeTypeForm.adult"
+                                    <input type="number" wire:model="roomTypeForm.adult"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="0" required="">
                                 </div>
@@ -91,7 +82,7 @@
                                     <label for="price"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Trẻ
                                         em</label>
-                                    <input type="number" wire:model="romeTypeForm.children"
+                                    <input type="number" wire:model="roomTypeForm.children"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="0" required="">
                                 </div>
@@ -99,7 +90,7 @@
                                     <label for="description"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mô tả
                                         phòng</label>
-                                    <textarea id="description" rows="4" wire:model="romeTypeForm.description"
+                                    <textarea id="description" rows="4" wire:model="roomTypeForm.description"
                                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Mô tả"></textarea>
                                 </div>

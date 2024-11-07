@@ -14,7 +14,7 @@
                         aria-current="page"><i class="fa-solid fa-house pr-2"></i>Trang chủ</a>
                 </li>
                 <li class="py-3 my-2">
-                    <a href="{{route('admin.tr-dash')}}"
+                    <a href="{{route('admin.room-dash')}}"
                         class="list-items block py-1 px-4 rounded hover:bg-gray-100  md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         <i class="fa-solid fa-hotel pr-2"></i>Quản lý phòng</a>
                 </li>
