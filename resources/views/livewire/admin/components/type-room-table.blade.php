@@ -61,14 +61,19 @@
                                         phòng</label>
                                     <input type="text" name="name" id="name" wire:model="roomTypeForm.name"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Type product name" required="">
+                                        placeholder="Type product name">
+                                    @error('roomTypeForm.name') <small class="text-red-500 error">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="col-span-2">
                                     <label for="price"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giá</label>
                                     <input type="number" wire:model="roomTypeForm.price"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="$2999" required="">
+                                        placeholder="$2999">
+                                    @error('roomTypeForm.price') <small
+                                        class="text-red-500 error">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="sm:col-span-1">
                                     <label for="price"
@@ -76,15 +81,20 @@
                                         lớn</label>
                                     <input type="number" wire:model="roomTypeForm.adult"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="0" required="">
+                                        placeholder="0">
+                                    @error('roomTypeForm.adult') <small
+                                        class="text-red-500 error">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="sm:col-span-1">
-                                    <label for="price"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Trẻ
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Trẻ
                                         em</label>
                                     <input type="number" wire:model="roomTypeForm.children"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="0" required="">
+                                        placeholder="0">
+                                    @error('roomTypeForm.children') <small
+                                        class="text-red-500 error">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="col-span-2">
                                     <label for="description"
@@ -93,6 +103,9 @@
                                     <textarea id="description" rows="4" wire:model="roomTypeForm.description"
                                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Mô tả"></textarea>
+                                    @error('roomTypeForm.description') <small
+                                        class="text-red-500 error">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <button type="submit"

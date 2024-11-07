@@ -33,27 +33,16 @@ class RoomTable extends Component
     public $images = [];
 
 
-    public function rules()
-    {
-        return [
-            'roomForm.name' => 'required',
-            'roomForm.room_number' => 'required',
-            'roomForm.status' => 'required|in:available,booked,fixing,occupied',
-            'roomForm.room_type_id' => 'required|exists:room_types,id',
-        ];
-    }
-
     public function add()
     {
-        // $this->validate();
-        $room = Room::create($this->roomForm->pull(
-            [
-                'name',
-                'room_number',
-                'status',
-                'room_type_id',
-            ]
-        ));
+        $this->roomForm->validate();
+        $room = Room::create([
+            'name' => $this->roomForm->name,
+            'room_number' => $this->roomForm->room_number,
+            'status' => $this->roomForm->status,
+            'room_type_id' => $this->roomForm->room_type_id,
+        ]);
+
 
         if (!empty($this->images)) {
             foreach ($this->images as $image) {
