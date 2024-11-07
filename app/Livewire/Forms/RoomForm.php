@@ -7,7 +7,7 @@ use Livewire\Form;
 
 class RoomForm extends Form
 {
-    #[Validate('required')]
+    #[Validate('required', message: 'Vui lòng không được bỏ trống')]
     public $name;
     #[Validate('required')]
     public $room_number;

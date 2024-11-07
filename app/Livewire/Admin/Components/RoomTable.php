@@ -19,11 +19,29 @@ class RoomTable extends Component
     public RoomForm $roomForm;
     public RoomTypeForm $roomTypeForm;
     public $rooms;
+    public $roomId;
 
     public $room_type_id;
 
+    public $name;
+    public $room_number;
+    public $status;
+
+    public $existingImages = [];
+
     #[Validate(['images.*' => 'image|max:10240'])]
     public $images = [];
+
+
+    public function rules()
+    {
+        return [
+            'roomForm.name' => 'required',
+            'roomForm.room_number' => 'required',
+            'roomForm.status' => 'required|in:available,booked,fixing,occupied',
+            'roomForm.room_type_id' => 'required|exists:room_types,id',
+        ];
+    }
 
     public function add()
     {
@@ -32,6 +50,7 @@ class RoomTable extends Component
             [
                 'name',
                 'room_number',
+                'status',
                 'room_type_id',
             ]
         ));
@@ -45,12 +64,12 @@ class RoomTable extends Component
                 ]);
             }
         }
-        $this->images = [];
-        session()->flash('message', 'Thêm phòng mới thành công!');
+        // $this->images = [];
+        $this->resetField();
+        session()->flash('SuccessMes', 'Thêm phòng mới thành công!');
         $this->dispatch('close-modal');
     }
 
-    public $roomId;
     public function getRoomId($id)
     {
         $this->roomId = $id;
@@ -71,14 +90,77 @@ class RoomTable extends Component
 
             // $this->dispatch('close-modal');
 
-            session()->flash('deleteMessage', 'Xoá phòng thành công!');
+            session()->flash('successMes', 'Xoá phòng thành công!');
 
         }
 
     }
 
+    public function edit($id)
+    {
+        $Room = Room::with('room_images')->findOrFail($id);
+        $this->roomForm->name = $Room->name;
+        $this->roomForm->room_number = $Room->room_number;
+        $this->roomForm->status = $Room->status;
+        $this->roomForm->room_type_id = $Room->room_type_id;
+
+        //The pluck method get all of the values for a same key:
+        $this->existingImages = $Room->room_images->pluck('image_url')->toArray();
+
+        $this->roomId = $id;
+    }
+
+    public function update()
+    {
+        // $this->validate();
+        $room = Room::with('room_images')->findOrFail($this->roomId);
+        $room->update([
+            'name' => $this->roomForm->name,
+            'room_number' => $this->roomForm->room_number,
+            'status' => $this->roomForm->status,
+            'room_type_id' => $this->roomForm->room_type_id,
+        ]);
+
+        if ($this->images) {
+
+            foreach ($room->room_images as $image) {
+                Storage::disk('public')->delete($image->image_url);
+                $image->delete();
+            }
+
+            foreach ($this->images as $image) {
+                $imagePath = $image->store('room_images', 'public');
+                RoomImage::create([
+                    'room_id' => $this->roomId,
+                    'image_url' => $imagePath,
+                ]);
+            }
+        }
+        $this->resetField();
+        session()->flash('successMes', 'Cập nhật phòng thành công!');
+        $this->dispatch('close-modal');
+    }
+
+    public function resetField()
+    {
+        $this->roomForm->name = '';
+        $this->roomForm->room_number = '';
+        $this->roomForm->room_type_id = '';
+
+        // Reset các thuộc tính khác
+        $this->roomId = null;
+        $this->existingImages = [];
+        $this->images = [];
+        if (!$this->roomId) {
+            $this->roomForm->status = 'available';
+        }
+    }
+
     public function render()
     {
+        if (!$this->roomId) {
+            $this->roomForm->status = 'available';
+        }
         $this->rooms = Room::with('typeRoom')->get();
         $typeRooms = TypeRoom::all();
         return view('livewire.admin.components.room-table', [

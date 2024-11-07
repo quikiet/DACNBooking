@@ -20,10 +20,6 @@ class Room extends Model
         'room_type_id',
     ];
 
-    protected $attributes = [
-        'status' => 'available',
-    ];
-
     public function typeRoom()
     {
         return $this->belongsTo(TypeRoom::class, 'room_type_id', 'room_type_id');
