@@ -4,3 +4,7 @@
 @section('content')
 @livewire('admin.components.room-table')
 @endsection
+
+@section('script')
+
+@endsection

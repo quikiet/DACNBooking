@@ -28,11 +28,8 @@ class RoomTable extends Component
     public $status;
 
     public $existingImages = [];
-
-    #[Validate(['images.*' => 'image|max:10240'])]
+    #[Validate(['images.*' => 'image|max:1024'])]
     public $images = [];
-
-
     public function add()
     {
         $this->roomForm->validate();
@@ -53,9 +50,9 @@ class RoomTable extends Component
                 ]);
             }
         }
-        // $this->images = [];
         $this->resetField();
         session()->flash('SuccessMes', 'Thêm phòng mới thành công!');
+        $this->dispatch('show-toast');
         $this->dispatch('close-modal');
     }
 
@@ -79,7 +76,8 @@ class RoomTable extends Component
 
             // $this->dispatch('close-modal');
 
-            session()->flash('successMes', 'Xoá phòng thành công!');
+            $this->dispatch('show-toast');
+            session()->flash('SuccessMes', 'Xoá phòng thành công!');
 
         }
 
@@ -126,7 +124,8 @@ class RoomTable extends Component
             }
         }
         $this->resetField();
-        session()->flash('successMes', 'Cập nhật phòng thành công!');
+        session()->flash('SuccessMes', 'Cập nhật phòng thành công!');
+        $this->dispatch('show-toast');
         $this->dispatch('close-modal');
     }
 
@@ -147,10 +146,10 @@ class RoomTable extends Component
 
     public function render()
     {
-        if (!$this->roomId) {
+        if (is_null($this->roomForm->status)) {
             $this->roomForm->status = 'available';
         }
-        $this->rooms = Room::with('typeRoom')->get();
+        $this->rooms = Room::with('typeRoom', 'room_images')->get();
         $typeRooms = TypeRoom::all();
         return view('livewire.admin.components.room-table', [
             'rooms' => $this->rooms,

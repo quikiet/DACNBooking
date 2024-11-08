@@ -8,7 +8,8 @@ use Livewire\Form;
 class RoomTypeForm extends Form
 {
     //
-    #[Validate('required|string|max:255')]
+    #[Validate('required')]
+    #[Validate('unique:room_types,name', message: 'Tên bị trùng')]
     public $name = '';
     #[Validate('required|numeric')]
     public $price = '';
@@ -18,4 +19,6 @@ class RoomTypeForm extends Form
     public $children = '';
     #[Validate('nullable|string')]
     public $description = '';
+
+
 }
