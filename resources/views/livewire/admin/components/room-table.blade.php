@@ -191,7 +191,8 @@
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 @if ($room->room_images)
                                     @foreach ($room->room_images->take(1) as $image)
-                                        <img class="h-12 w-12" src="{{Storage::url($image->image_url)}}" alt="Hình ảnh về phòng">
+                                        <img class="h-12 w-12 rounded-md" src="{{Storage::url($image->image_url)}}"
+                                            alt="Hình ảnh về phòng">
                                     @endforeach
                                 @endif
                             </th>
@@ -280,6 +281,10 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div class="mt-4">
+                {{ $rooms->links() }}
+            </div>
         </div>
 
     </div>
