@@ -99,33 +99,47 @@ class RoomTable extends Component
 
     public function update()
     {
+
+        $isUpdated = false;
         // $this->validate();
         $room = Room::with('room_images')->findOrFail($this->roomId);
-        $room->update([
-            'name' => $this->roomForm->name,
-            'room_number' => $this->roomForm->room_number,
-            'status' => $this->roomForm->status,
-            'room_type_id' => $this->roomForm->room_type_id,
-        ]);
+        if ($room) {
+            if (
+                $room->name !== $this->roomForm->name
+                || $room->room_number !== $this->roomForm->room_number
+                || $room->status !== $this->roomForm->status
+                || $room->room_type_id !== $this->roomForm->room_type_id
+            ) {
+                $room->update([
+                    'name' => $this->roomForm->name,
+                    'room_number' => $this->roomForm->room_number,
+                    'status' => $this->roomForm->status,
+                    'room_type_id' => $this->roomForm->room_type_id,
+                ]);
+                if ($this->images) {
 
-        if ($this->images) {
+                    foreach ($room->room_images as $image) {
+                        Storage::disk('public')->delete($image->image_url);
+                        $image->delete();
+                    }
 
-            foreach ($room->room_images as $image) {
-                Storage::disk('public')->delete($image->image_url);
-                $image->delete();
+                    foreach ($this->images as $image) {
+                        $imagePath = $image->store('room_images', 'public');
+                        RoomImage::create([
+                            'room_id' => $this->roomId,
+                            'image_url' => $imagePath,
+                        ]);
+                    }
+                    $isUpdated = true;
+                }
             }
 
-            foreach ($this->images as $image) {
-                $imagePath = $image->store('room_images', 'public');
-                RoomImage::create([
-                    'room_id' => $this->roomId,
-                    'image_url' => $imagePath,
-                ]);
+            if ($isUpdated) {
+                $this->resetField();
+                session()->flash('SuccessMes', 'Cập nhật phòng thành công!');
+                $this->dispatch('show-toast');
             }
         }
-        $this->resetField();
-        session()->flash('SuccessMes', 'Cập nhật phòng thành công!');
-        $this->dispatch('show-toast');
         $this->dispatch('close-modal');
     }
 

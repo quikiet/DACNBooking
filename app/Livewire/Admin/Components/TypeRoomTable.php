@@ -50,27 +50,43 @@ class TypeRoomTable extends Component
     public function edit($id)
     {
         $TypeRoom = TypeRoom::find($id);
-        $this->typeRoomId = $TypeRoom->room_type_id;
         $this->roomTypeForm->name = $TypeRoom->name;
         $this->roomTypeForm->price = $TypeRoom->price;
         $this->roomTypeForm->adult = $TypeRoom->adult;
         $this->roomTypeForm->children = $TypeRoom->children;
         $this->roomTypeForm->description = $TypeRoom->description;
+
+        $this->typeRoomId = $TypeRoom->room_type_id;
     }
 
     public function update()
     {
-        $this->validate();
-        TypeRoom::where('room_type_id', $this->typeRoomId)->update([
-            'name' => $this->roomTypeForm->name,
-            'price' => $this->roomTypeForm->price,
-            'adult' => $this->roomTypeForm->adult,
-            'children' => $this->roomTypeForm->children,
-            'description' => $this->roomTypeForm->description,
-        ]);
-        session()->flash('message', "Cập nhật thành công");
-        $this->dispatch('close-modal');
+        $isUpdated = false;
+        // $typeRoom = TypeRoom::where('room_type_id', $this->typeRoomId);
+        $typeRoom = TypeRoom::findOrFail($this->typeRoomId);
+        if ($typeRoom) {
+            if (
+                $typeRoom->name !== $this->roomTypeForm->name
+                || $typeRoom->price !== $this->roomTypeForm->price
+                || $typeRoom->adult !== $this->roomTypeForm->adult
+                || $typeRoom->children !== $this->roomTypeForm->children
+                || $typeRoom->description !== $this->roomTypeForm->description
+            ) {
+                $typeRoom->update([
+                    'name' => $this->roomTypeForm->name,
+                    'price' => $this->roomTypeForm->price,
+                    'adult' => $this->roomTypeForm->adult,
+                    'children' => $this->roomTypeForm->children,
+                    'description' => $this->roomTypeForm->description,
+                ]);
+                $isUpdated = true;
+            }
+        }
+        if ($isUpdated) {
+            session()->flash('message', "Cập nhật thành công");
+        }
         $this->mount();
+        $this->dispatch('close-modal');
     }
 
     public function render()
