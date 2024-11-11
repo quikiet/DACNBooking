@@ -14,7 +14,7 @@ class TypeRoomSeeder extends Seeder
     public function run(): void
     {
         TypeRoom::create([
-            'name' => 'Standard Room',
+            'name' => 'Phòng cơ bản',
             'price' => 500000,
             'adult' => 2,
             'children' => 1,
@@ -22,7 +22,7 @@ class TypeRoomSeeder extends Seeder
         ]);
 
         TypeRoom::create([
-            'name' => 'Deluxe Room',
+            'name' => 'Phòng cao cấp',
             'price' => 1000000,
             'adult' => 2,
             'children' => 2,
@@ -30,7 +30,7 @@ class TypeRoomSeeder extends Seeder
         ]);
 
         TypeRoom::create([
-            'name' => 'Suite Room',
+            'name' => 'Phòng thương gia',
             'price' => 2000000,
             'adult' => 4,
             'children' => 2,

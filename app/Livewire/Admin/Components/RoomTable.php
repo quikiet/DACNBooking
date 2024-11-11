@@ -27,29 +27,16 @@ class RoomTable extends Component
     public $room_number;
     public $status;
 
-    public $existingImages = [];
-    #[Validate(['images.*' => 'image|max:1024'])]
-    public $images = [];
     public function add()
     {
         $this->roomForm->validate();
-        $room = Room::create([
+        Room::create([
             'name' => $this->roomForm->name,
             'room_number' => $this->roomForm->room_number,
             'status' => $this->roomForm->status,
             'room_type_id' => $this->roomForm->room_type_id,
         ]);
 
-
-        if (!empty($this->images)) {
-            foreach ($this->images as $image) {
-                $imagePath = $image->store('room_images', 'public');
-                RoomImage::create([
-                    'room_id' => $room->room_id,
-                    'image_url' => $imagePath,
-                ]);
-            }
-        }
         $this->resetField();
         session()->flash('SuccessMes', 'Thêm phòng mới thành công!');
         $this->dispatch('show-toast');
@@ -64,13 +51,7 @@ class RoomTable extends Component
     public function delete()
     {
         if ($this->roomId) {
-            $room = Room::with('room_images')->findOrFail($this->roomId);
-
-            foreach ($room->room_images as $image) {
-                Storage::disk('public')->delete($image->image_url);
-            }
-
-            RoomImage::where('room_id', $this->roomId)->delete();
+            $room = Room::findOrFail($this->roomId);
 
             $room->delete();
 
@@ -85,14 +66,11 @@ class RoomTable extends Component
 
     public function edit($id)
     {
-        $Room = Room::with('room_images')->findOrFail($id);
+        $Room = Room::findOrFail($id);
         $this->roomForm->name = $Room->name;
         $this->roomForm->room_number = $Room->room_number;
         $this->roomForm->status = $Room->status;
         $this->roomForm->room_type_id = $Room->room_type_id;
-
-        //The pluck method get all of the values for a same key:
-        $this->existingImages = $Room->room_images->pluck('image_url')->toArray();
 
         $this->roomId = $id;
     }
@@ -102,7 +80,7 @@ class RoomTable extends Component
 
         $isUpdated = false;
         // $this->validate();
-        $room = Room::with('room_images')->findOrFail($this->roomId);
+        $room = Room::findOrFail($this->roomId);
         if ($room) {
             if (
                 $room->name !== $this->roomForm->name
@@ -116,22 +94,7 @@ class RoomTable extends Component
                     'status' => $this->roomForm->status,
                     'room_type_id' => $this->roomForm->room_type_id,
                 ]);
-                if ($this->images) {
-
-                    foreach ($room->room_images as $image) {
-                        Storage::disk('public')->delete($image->image_url);
-                        $image->delete();
-                    }
-
-                    foreach ($this->images as $image) {
-                        $imagePath = $image->store('room_images', 'public');
-                        RoomImage::create([
-                            'room_id' => $this->roomId,
-                            'image_url' => $imagePath,
-                        ]);
-                    }
-                    $isUpdated = true;
-                }
+                $isUpdated = true;
             }
 
             if ($isUpdated) {
@@ -151,8 +114,6 @@ class RoomTable extends Component
 
         // Reset các thuộc tính khác
         $this->roomId = null;
-        $this->existingImages = [];
-        $this->images = [];
         if (!$this->roomId) {
             $this->roomForm->status = 'available';
         }
@@ -163,7 +124,7 @@ class RoomTable extends Component
         if (is_null($this->roomForm->status)) {
             $this->roomForm->status = 'available';
         }
-        $this->rooms = Room::with('typeRoom', 'room_images')->get();
+        $this->rooms = Room::with('typeRoom')->get();
         $typeRooms = TypeRoom::all();
         return view('livewire.admin.components.room-table', [
             'rooms' => $this->rooms,

@@ -115,6 +115,23 @@
                                         class="text-red-500 error">{{ $message }}</small>
                                     @enderror
                                 </div>
+                                <!-- upload ảnh -->
+                                <div class="col-span-2">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        for="multiple_files">Hình ảnh</label>
+                                    <input
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                        id="multiple_files" wire:model.live="images" type="file" multiple>
+                                    @if ($images)
+                                        <ul class="text-blue-400">
+                                            @foreach ($images as $image)
+                                                <li>{{ $image->getClientOriginalName() }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                    @error('images.*') <small class="text-red-500 error">{{ $message }}</small>
+                                    @enderror
+                                </div>
                             </div>
                             <button type="submit"
                                 class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -141,6 +158,7 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <!-- <th scope="col" class="px-6 py-3">Id</th> -->
+                        <th scope="col" class="px-6 py-3"> Hình ảnh </th>
                         <th scope="col" class="px-6 py-3">Tên kiểu phòng</th>
                         <th scope="col" class="px-6 py-3">Giá</th>
                         <th scope="col" class="px-6 py-3">Người lớn</th>
@@ -154,9 +172,16 @@
                         @foreach ($type_Rooms as $typeRoom)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    @if ($typeRoom->room_images)
+                                        @foreach ($typeRoom->room_images->take(1) as $image)
+                                            <img class="h-12 w-12" src="{{Storage::url($image->image_url)}}" alt="Hình ảnh về phòng">
+                                        @endforeach
+                                    @endif
+                                </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $typeRoom->name }}
                                 </th>
-                                <td class="px-6 py-4">{{ $typeRoom->price }}</td>
+                                <td class="px-6 py-4">{{ number_format($typeRoom->price, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4">{{ $typeRoom->adult }}</td>
                                 <td class="px-6 py-4">{{ $typeRoom->children }}</td>
                                 <td class="px-6 py-4">{{ $typeRoom->description }}</td>
