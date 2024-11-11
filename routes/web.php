@@ -1,11 +1,18 @@
 <?php
 
+use App\Http\Controllers\SocialiteController;
 use App\Livewire\Admin\Components\TypeRoomTable;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Pages\DetailRoom;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
+
+Route::controller(SocialiteController::class)->group(function () {
+    Route::get('auth/google', [SocialiteController::class, 'googleLogin'])->name('auth.google');
+    Route::get('auth/google-callback', 'googleAuthentication')->name('auth/google-callback');
+});
+
 
 Route::view('trang-chu', 'home')
     // ->middleware(['auth', 'verified'])
