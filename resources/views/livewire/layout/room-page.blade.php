@@ -303,8 +303,9 @@
                                         <div class="flex flex-col items-center">
                                             <p class="py-3"><span>{{ number_format($typeRoom->price, 0, ',', '.') }}
                                                     đ/đêm</span></p>
-                                            <div wire:key="room-{{ $typeRoom->room_type_id }}">
-                                                <button wire:click=" getTypeRoomId({{$typeRoom->room_type_id}})"
+                                            <div>
+                                                <button
+                                                    wire:click="addToCart({{ $typeRoom->room_type_id }}, 1, {{ $typeRoom->price }})"
                                                     class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                                     Đặt ngay
                                                 </button>
@@ -321,8 +322,8 @@
 
                         <!-- cart booking -->
                         <div class="lg:col-span-2">
-                            <div class="shadow border rounded sticky top-24">
-
+                            <div class="shadow border rounded sticky top-24 p-4">
+                                @livewire('layout.cart-booking')
                             </div>
                         </div>
                     </div>

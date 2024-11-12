@@ -13,26 +13,33 @@ class RoomPage extends Component
     public $adult = 0;
     public $children = 0;
 
-    // public function mount()
-    // {
-    //     $this->typeRooms = TypeRoom::with('room_images')->get();
-    // }
+    public $bookingCart = [];
 
-    // public function filterTypeRooms()
-    // {
 
-    // }
-
-    public function getTypeRoomId($id)
+    public function addToCart($typeRoomId, $quantity, $pricePerRoom)
     {
-        session()->put('getTypeRoomId', $id);
-        return redirect()->route('room.detail');
-    }
+        $tr = TypeRoom::findOrFail($typeRoomId);
+        $cart = session()->get('bookingCart', []);
+        if (isset($cart[$typeRoomId])) {
+            $cart[$typeRoomId]['quantity'] += $quantity;
+        } else {
+            $cart[$typeRoomId] = [
+                'room_type_id' => $typeRoomId,
+                'quantity' => $quantity,
+                'price_per_room' => $pricePerRoom,
+                'adult' => $tr->adult,
+                'children' => $tr->children,
+                'room_type_name' => $tr->name,
+            ];
+        }
 
+        session()->put('bookingCart', $cart);
+        // $this->bookingCart = $cart;
+    }
 
     public function render()
     {
-
+        // session()->remove('bookingCart');
         $typeRooms = TypeRoom::where(
             'adult',
             '>=',
