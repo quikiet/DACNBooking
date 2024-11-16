@@ -3,6 +3,8 @@
 use App\Http\Controllers\SocialiteController;
 use App\Livewire\Admin\Components\TypeRoomTable;
 use App\Livewire\Admin\Dashboard;
+use App\Livewire\Layout\MakePayment;
+use App\Livewire\Layout\VnpayPayment;
 use App\Livewire\Pages\DetailRoom;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,14 @@ Route::view('danh-sach-phong', 'livewire.pages.room')
 Route::get('danh-sach-phong/chi-tiet-phong', DetailRoom::class)
     ->name('room.detail');
 
+
+Route::post('danh-sach-phong/thanh-toan-vnpay', [VnpayPayment::class, 'vnpay'])
+    ->middleware(['auth', 'verified'])
+    ->name('vnpay');
+
+Route::get('danh-sach-phong/thuc-hien-thanh-toan', [MakePayment::class, 'makePayment'])
+    ->middleware(['auth', 'verified'])
+    ->name('vnpay.return');
 
 // Admin Panel Dashboard
 

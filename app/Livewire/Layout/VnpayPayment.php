@@ -2,27 +2,36 @@
 
 namespace App\Livewire\Layout;
 
+use App\Models\Booking;
+use App\Models\BookingDetail;
+use Auth;
 use Livewire\Component;
 
 class VnpayPayment extends Component
 {
-
     public function vnpay()
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
-        $vnp_TmnCode = "YN0DQBNP";
-        $vnp_HashSecret = "FX7J6EH7E7MQEZMUO9QUB6XTQX8LBCBY";
+        $vnp_Returnurl = route('vnpay.return');
+        $vnp_TmnCode = "YN0DQBNP";//Mã website tại VNPAY 
+        $vnp_HashSecret = "FX7J6EH7E7MQEZMUO9QUB6XTQX8LBCBY"; //Chuỗi bí mật
 
-        $vnp_TxnRef = $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
-        $vnp_OrderInfo = $_POST['order_desc'];
-        $vnp_OrderType = $_POST['order_type'];
-        $vnp_Amount = $_POST['amount'] * 100;
-        $vnp_Locale = $_POST['language'];
-        $vnp_BankCode = $_POST['bank_code'];
+        $cart = session()->get('bookingCart', []);
+        $totalPay = 0;
+        $totalGuests = 0;
+        foreach ($cart as $item) {
+            $totalPay += $item['price_per_room'] * $item['quantity'];
+            $totalGuests += $item['quantity'] * ($item['adult'] + $item['children']);
+        }
+
+        $vnp_TxnRef = time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
+        $vnp_OrderInfo = "Thanh toán đơn hàng #" . $vnp_TxnRef;
+        $vnp_OrderType = "Thanh toán VNPay";
+        $vnp_Amount = $totalPay * 100;
+        $vnp_Locale = "vn";
+        $vnp_BankCode = "NCB";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         //Add Params of 2.0.1 Version
-        $vnp_ExpireDate = $_POST['txtexpire'];
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
@@ -36,7 +45,6 @@ class VnpayPayment extends Component
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
-            "vnp_ExpireDate" => $vnp_ExpireDate,
         );
 
         if (isset($vnp_BankCode) && $vnp_BankCode != "") {
@@ -73,13 +81,12 @@ class VnpayPayment extends Component
             ,
             'data' => $vnp_Url
         );
-        if (isset($_POST['redirect'])) {
+        if (isset($_POST['vnpay'])) {
             header('Location: ' . $vnp_Url);
             die();
         } else {
             echo json_encode($returnData);
         }
-        // vui lòng tham khảo thêm tại code demo
     }
 
     public function render()

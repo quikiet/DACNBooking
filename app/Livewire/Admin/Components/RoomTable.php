@@ -36,7 +36,6 @@ class RoomTable extends Component
             'status' => $this->roomForm->status,
             'room_type_id' => $this->roomForm->room_type_id,
         ]);
-
         $this->resetField();
         session()->flash('SuccessMes', 'Thêm phòng mới thành công!');
         $this->dispatch('show-toast');
