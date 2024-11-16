@@ -26,6 +26,18 @@
                         class="list-items block py-1 px-4 rounded hover:bg-gray-100  md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         <i class="fa-solid fa-list pr-2"></i> Quản lý loại phòng</a>
                 </li>
+                <li
+                    class="py-3 my-2 {{request()->routeIs('admin.user-dash') ? 'bg-blue-700 rounded-r-full dark:bg-blue-600' : ''}}">
+                    <a href="{{route('admin.user-dash')}}"
+                        class="list-items block py-1 px-4 rounded hover:bg-gray-100  md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        <i class="fa-regular fa-user pr-2"></i>Quản lý người dùng</a>
+                </li>
+                <li
+                    class="py-3 my-2 {{request()->routeIs('admin.booking-dash') ? 'bg-blue-700 rounded-r-full dark:bg-blue-600' : ''}}">
+                    <a href="{{route('admin.booking-dash')}}"
+                        class="list-items block py-1 px-4 rounded hover:bg-gray-100  md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        <i class="fa-solid fa-list pr-2"></i>Quản lý đặt phòng</a>
+                </li>
             </ul>
         </div>
     </div>

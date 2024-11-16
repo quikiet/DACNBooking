@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id('booking_id');
-            $table->foreignId('user_id')->constrained('users', 'id')->onDelete(action: 'cascade');
+            $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
             $table->double('total_pay');
             $table->date('check_in');
             $table->date('check_out');

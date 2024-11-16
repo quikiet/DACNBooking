@@ -12,4 +12,9 @@ class BookingDetail extends Model
         'quantity',
         'price_per_room'
     ];
+
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class);
+    }
 }

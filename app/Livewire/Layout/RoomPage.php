@@ -34,17 +34,21 @@ class RoomPage extends Component
         }
 
         session()->put('bookingCart', $cart);
+        $this->dispatch('refreshCart');
         // $this->bookingCart = $cart;
     }
 
     public function render()
     {
         // session()->remove('bookingCart');
-        $typeRooms = TypeRoom::where(
-            'adult',
-            '>=',
-            $this->adult
-        )->where(
+        // session()->forget('bookingCart');
+
+        $typeRooms = TypeRoom::withCount('availableRooms')
+            ->where(
+                'adult',
+                '>=',
+                $this->adult
+            )->where(
                 'children',
                 '>=',
                 $this->children

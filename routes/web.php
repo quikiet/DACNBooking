@@ -43,13 +43,22 @@ Route::view('admin/home-dash', 'livewire.admin.home-dash')
     ->middleware(['auth', 'verified'])
     ->name('admin.home-dash');
 
+Route::view('admin/rooms', 'livewire.admin.room-dash')
+    ->middleware(['auth', 'verified'])
+    ->name('admin.room-dash');
+
 Route::view('admin/type-room', 'livewire.admin.typeroom-dash')
     ->middleware(['auth', 'verified'])
     ->name('admin.tr-dash');
 
-Route::view('admin/rooms', 'livewire.admin.room-dash')
+Route::view('admin/users', 'livewire.admin.user-dash')
     ->middleware(['auth', 'verified'])
-    ->name('admin.room-dash');
+    ->name('admin.user-dash');
+
+Route::view('admin/bookings', 'livewire.admin.booking-dash')
+    ->middleware(['auth', 'verified'])
+    ->name('admin.booking-dash');
+
 
 // Route::get('admin/room-type', TypeRoomTable::class)->name('admin.room-type');
 

@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
+    protected $primaryKey = "booking_id";
+
+
+
     protected $fillable = [
+        'user_id',
         'booking_id',
         'check_in',
         'check_out',
@@ -16,8 +21,13 @@ class Booking extends Model
         'status',
         'refund',
     ];
-    public function bookingDetails()
+    public function bookingDetail()
     {
         return $this->hasMany(BookingDetail::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
