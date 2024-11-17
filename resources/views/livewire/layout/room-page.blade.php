@@ -1,6 +1,9 @@
 <div>
 
 
+    <!-- toast -->
+    <x-mary-toast />
+
     <div class="bg-white">
         <div x-data="{open:false}">
 
@@ -109,8 +112,6 @@
                 </div>
             </div>
 
-            <!-- toast -->
-            <x-mary-toast />
 
             <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
@@ -269,17 +270,6 @@
                                                 </h5>
                                                 <div>
 
-
-
-                                                    <!-- <p class="mb-1 font-normal text-gray-700">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Tiện nghi
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="flex gap-2">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
-
                                                 </div>
                                                 <div>
                                                     <p class="mb-1 font-normal text-gray-700">
@@ -303,6 +293,15 @@
                                                             Xem thêm
                                                         </a>
                                                     </div>
+                                                    <div class="justify-end items-center flex gap-5">
+                                                        <p class="mb-1 font-semibold text-s text-gray-700">Số lượng
+                                                        </p>
+                                                        <input type="number" min="1"
+                                                            wire:model.lazy="quantities.{{ $typeRoom->room_type_id}}"
+                                                            value="{{ $quantities[$typeRoom->room_type_id] ?? 1 }}"
+                                                            max="{{ $typeRoom->available_rooms_count }}"
+                                                            class="input input-bordered w-12 max-w-xs" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -316,8 +315,8 @@
                                                             viewBox="0 -960 960 960" width="24px" fill="currentColor">
                                                             <path
                                                                 d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240Zm40 360q-83
-                                                                                                                                                                                                                                                                                                                                                                                                                             0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
-                                                                                                                                                                                                                                                                                                                                                                                                                              156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
                                                         </svg>
                                                         <p>Yêu cầu đặt cọc 50%</p>
                                                     </div>
@@ -336,13 +335,13 @@
                                                             </div>
                                                             <div>
                                                                 <button
-                                                                    wire:click="addToCart({{ $typeRoom->room_type_id }}, 1, {{ $typeRoom->price }})"
+                                                                    wire:click="addToCart({{ $typeRoom->room_type_id }},{{ $quantities[$typeRoom->room_type_id] ?? 1 }}, {{ $typeRoom->price }})"
                                                                     class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
                                                                     Đặt ngay
                                                                 </button>
                                                             </div>
 
-                                                        @elseif($typeRoom->available_rooms_count == 0)
+                                                        @elseif($typeRoom->available_rooms_count <= 0)
                                                             <div>
                                                                 <p class="text-red-500 font-bold text-xs text-end p-3">
                                                                     Hết phòng
@@ -362,7 +361,7 @@
                                                             </div>
                                                             <div>
                                                                 <button
-                                                                    wire:click="addToCart({{ $typeRoom->room_type_id }}, 1, {{ $typeRoom->price }})"
+                                                                    wire:click="addToCart({{ $typeRoom->room_type_id }},{{ $quantities[$typeRoom->room_type_id] ?? 1 }}, {{ $typeRoom->price }})"
                                                                     class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
                                                                     Đặt ngay
                                                                 </button>

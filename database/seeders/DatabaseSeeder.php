@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TypeRoom;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,5 +25,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call(TypeRoomSeeder::class);
         $this->call(RoomSeeder::class);
+
+
+        TypeRoom::all()->each(function ($typeRoom) {
+            $typeRoom->quantity = $typeRoom->rooms()->count(); // Tổng số phòng từ bảng rooms
+            $typeRoom->available_rooms_count = $typeRoom->rooms()->where('status', 'available')->count(); // Tổng số phòng khả dụng
+            $typeRoom->save();
+        });
     }
 }

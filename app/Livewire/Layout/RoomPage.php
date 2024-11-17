@@ -9,16 +9,27 @@ use Mary\Traits\Toast;
 
 class RoomPage extends Component
 {
-    // public $typeRooms;
+    public $typeRooms;
     use Toast;
     public $adult = 0;
     public $children = 0;
 
     public $bookingCart = [];
 
+    public $quantities = [];
+
+    public function mount()
+    {
+        $this->typeRooms = TypeRoom::all();
+
+        foreach ($this->typeRooms as $typeRoom) {
+            $this->quantities[$typeRoom->room_type_id] = 1;
+        }
+    }
 
     public function addToCart($typeRoomId, $quantity, $pricePerRoom)
     {
+
         $tr = TypeRoom::findOrFail($typeRoomId);
         $cart = session()->get('bookingCart', []);
         if (isset($cart[$typeRoomId])) {
@@ -34,6 +45,9 @@ class RoomPage extends Component
             ];
         }
 
+
+        $this->quantities[$typeRoomId] = 1;
+
         session()->put('bookingCart', $cart);
         $this->dispatch('refreshCart');
         // $this->bookingCart = $cart;
@@ -41,26 +55,11 @@ class RoomPage extends Component
 
     public function render()
     {
+        // Lọc loại phòng dựa trên số lượng khách
+        $this->typeRooms = TypeRoom::where('adult', '>=', $this->adult)
+            ->where('children', '>=', $this->children)
+            ->get();
 
-        if (session()->has('SuccessMessage')) {
-            $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
-        }
-
-
-        $typeRooms = TypeRoom::withCount('availableRooms')
-            ->where(
-                'adult',
-                '>=',
-                $this->adult
-            )->where(
-                'children',
-                '>=',
-                $this->children
-            )->get();
-
-        return view(
-            'livewire.layout.room-page',
-            compact('typeRooms')
-        );
+        return view('livewire.layout.room-page', ['typeRooms' => $this->typeRooms]);
     }
 }
