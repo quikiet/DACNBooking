@@ -8,12 +8,14 @@ use App\Models\TypeRoom;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
 use Storage;
 
 class TypeRoomTable extends Component
 {
 
     use WithFileUploads;
+    use Toast;
     public $type_Rooms; // Khai báo thuộc tính để lưu trữ dữ liệu
     public RoomTypeForm $roomTypeForm;
 
@@ -49,7 +51,7 @@ class TypeRoomTable extends Component
             }
         }
 
-        session()->flash('message', 'Thêm loại phòng thành công!');
+        $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
         $this->dispatch('close-modal');
     }
 
@@ -70,7 +72,7 @@ class TypeRoomTable extends Component
             $tr->delete();
             $this->typeRoomId = null;
             $this->mount();
-            session()->flash('message', 'Xoá loại phòng thành công!.');
+            $this->success("Xoá phòng thành công!", "Bạn đã xoá phòng thành công", "toast-top toast-center");
 
         }
     }
@@ -129,7 +131,8 @@ class TypeRoomTable extends Component
             }
         }
         if ($isUpdated) {
-            session()->flash('message', "Cập nhật thành công");
+            $this->success("Cập nhật thành công!", "Bạn đã cập nhật kiểu phòng thành công", "toast-top toast-center");
+            session()->flash('message', "");
         }
         $this->mount();
         $this->dispatch('close-modal');

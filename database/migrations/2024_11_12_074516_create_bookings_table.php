@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->double('total_pay');
             $table->date('check_in');
             $table->date('check_out');
+            $table->string('bill_code');
             $table->boolean('refund')->default(false);
             $table->integer('total_guests');
             $table->enum('status', ['cancelled', 'booked', 'pending'])->default('pending');

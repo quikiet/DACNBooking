@@ -10,11 +10,14 @@ use App\Models\TypeRoom;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
 use Storage;
 
 class RoomTable extends Component
 {
     use WithFileUploads;
+
+    use Toast;
 
     public RoomForm $roomForm;
     public RoomTypeForm $roomTypeForm;
@@ -37,8 +40,7 @@ class RoomTable extends Component
             'room_type_id' => $this->roomForm->room_type_id,
         ]);
         $this->resetField();
-        session()->flash('SuccessMes', 'Thêm phòng mới thành công!');
-        $this->dispatch('show-toast');
+        $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
         $this->dispatch('close-modal');
     }
 
@@ -57,7 +59,7 @@ class RoomTable extends Component
             // $this->dispatch('close-modal');
 
             $this->dispatch('show-toast');
-            session()->flash('SuccessMes', 'Xoá phòng thành công!');
+            $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
 
         }
 
@@ -98,8 +100,7 @@ class RoomTable extends Component
 
             if ($isUpdated) {
                 $this->resetField();
-                session()->flash('SuccessMes', 'Cập nhật phòng thành công!');
-                $this->dispatch('show-toast');
+                $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
             }
         }
         $this->dispatch('close-modal');

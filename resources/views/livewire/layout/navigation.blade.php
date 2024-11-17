@@ -40,7 +40,7 @@ new class extends Component
                 <x-nav-link :href="route('room')" :active="request()->routeIs('room')" wire:navigate>
                     {{ __('Đặt phòng') }}
                 </x-nav-link>
-                <x-nav-link :active="request()->routeIs('')" wire:navigate>
+                <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')" wire:navigate>
                     {{ __('Liên hệ') }}
                 </x-nav-link>
                 <x-nav-link :active="request()->routeIs('')" wire:navigate>
@@ -67,13 +67,18 @@ new class extends Component
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile')" wire:navigate>
-                            {{ __('Profile') }}
+                            {{ __('Hồ sơ') }}
                         </x-dropdown-link>
 
+                        @if(auth()->user()->roles == 1)
+                        <x-dropdown-link :href="route('admin.dashboard')">
+                            {{ __('Trang quản lý') }}
+                        </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
-                                {{ __('Log Out') }}
+                                {{ __('Đăng xuất') }}
                             </x-dropdown-link>
                         </button>
                     </x-slot>

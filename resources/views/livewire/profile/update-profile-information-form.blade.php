@@ -87,8 +87,11 @@ new class extends Component {
     <form wire:submit="updateProfileInformation" class="mt-12 space-y-6">
         <div class="grid grid-cols-3 gap-5">
             <div class="flex flex-col items-center border p-4 rounded-lg shadow">
-                <img class="w-36 h-48 mb-3 rounded-full shadow-lg" src="{{$avatar}}" alt="Bonnie image" />
-                <div class="text-xl">{{$name}}</div>
+                <x-mary-file wire:model="photo" accept="image/png, image/jpeg">
+                    <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-40 w-32 rounded-lg" />
+                </x-mary-file>
+                <!-- <img class="w-36 h-48 mb-3 rounded-full shadow-lg" src="{{$avatar}}" alt="Bonnie image" /> -->
+                <div class="text-xl pt-5">{{$name}}</div>
             </div>
             <div class="col-span-2 border p-4 rounded-lg shadow">
                 <div>

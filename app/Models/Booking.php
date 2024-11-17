@@ -16,6 +16,7 @@ class Booking extends Model
         'booking_id',
         'check_in',
         'check_out',
+        'bill_code',
         'total_guests',
         'total_pay',
         'status',

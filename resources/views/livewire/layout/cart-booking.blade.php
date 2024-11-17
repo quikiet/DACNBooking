@@ -12,7 +12,7 @@
     </div>
     <div wire:loading class="text-center py-2 text-gray-500">
         <div
-            class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+            class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse ">
             Đang xử lý...</div>
     </div>
 
@@ -41,7 +41,7 @@
                 @csrf
                 <input type="hidden" name="vnpay" value="1">
                 <button type="submit"
-                    class="py-2 mt-3 px-11 min-w-full me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    class="py-2 mt-3 px-11 min-w-full me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
                     Đặt ngay
                 </button>
             </form>
@@ -49,7 +49,7 @@
             <div class="border-t flex items-center flex-col">
                 <p class="pt-2 pb-4">Chọn 1 phòng để tiếp tục.</p>
                 <button type="button"
-                    class="text-white min-w-full bg-green-400 dark:bg-green-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class="text-white min-w-full bg-green-400  cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     disabled>Đặt phòng</button>
             </div>
         @endif

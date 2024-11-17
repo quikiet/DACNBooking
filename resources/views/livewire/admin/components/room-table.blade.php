@@ -1,27 +1,5 @@
 <div>
 
-    @if (session('SuccessMes'))
-        <div x-data="{ open: true }">
-            <div class="fixed top-10 right-10 max-w-xs p-4 text-green-500 bg-green-100 rounded-lg shadow-lg dark:bg-green-600 dark:text-white"
-                x-show="open" x-transition @click.away="open = false">
-                <div class="flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 dark:text-green-200"
-                        fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                    </svg>
-                    <span>{{ session('SuccessMes') }}</span>
-                    <button @click="open = false" class="text-red-500 font-bold">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                            fill="#434343">
-                            <path
-                                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    @endif
 
 
     <div class="container relative px-6 overflow-x-auto sm:rounded-lg" x-data="{open : false}"
@@ -145,6 +123,7 @@
             </div>
         </div>
 
+        <x-mary-toast />
 
         <!-- table hiển thị -->
 

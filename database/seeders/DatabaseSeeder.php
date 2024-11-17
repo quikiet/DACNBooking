@@ -16,11 +16,13 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Test Admin',
             'email' => 'example@gmail.com',
             'password' => '123456',
+            'roles' => true
         ]);
 
         $this->call(TypeRoomSeeder::class);
+        $this->call(RoomSeeder::class);
     }
 }

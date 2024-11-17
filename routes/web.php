@@ -5,6 +5,7 @@ use App\Livewire\Admin\Components\TypeRoomTable;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Layout\MakePayment;
 use App\Livewire\Layout\VnpayPayment;
+use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\DetailRoom;
 use Illuminate\Support\Facades\Route;
 
@@ -30,9 +31,13 @@ Route::view('danh-sach-phong', 'livewire.pages.room')
 
 // Route::get('danh-sach-phong/chi-tiet-phong', 'livewire.pages.detail-room')
 //     ->name('room.detail');
-Route::get('danh-sach-phong/chi-tiet-phong', DetailRoom::class)
-    ->name('room.detail');
+// Route::get('chi-tiet-phong', DetailRoom::class)
+//     ->middleware(['auth', 'verified'])
+//     ->name('room.detail');
 
+Route::view('lien-he', 'livewire.pages.contact')
+    ->middleware(['auth', 'verified'])
+    ->name('contact');
 
 Route::post('danh-sach-phong/thanh-toan-vnpay', [VnpayPayment::class, 'vnpay'])
     ->middleware(['auth', 'verified'])

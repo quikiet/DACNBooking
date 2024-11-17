@@ -7,12 +7,14 @@ use App\Models\BookingDetail;
 use Auth;
 use Illuminate\Http\Request;
 use Livewire\Component;
-
+use Mary\Traits\Toast;
 
 class MakePayment extends Component
 {
+    use Toast;
     public function makePayment(Request $request)
     {
+
         $vnp_ResponseCode = $request->get('vnp_ResponseCode');
         $vnp_TxnRef = $request->get('vnp_TxnRef'); // Mã bill
 
@@ -45,9 +47,9 @@ class MakePayment extends Component
                 ]);
             }
             session()->forget('bookingCart');
-            return redirect('/trang-chu')->with('SuccessMessage', "Thanh toán thành công!");
+            return redirect('/danh-sach-phong')->with('SuccessMessage');
         }
-        return redirect('/trang-chu')->with('ErrorMessage', "Thanh toán không thành công, hãy thử lại!");
+        $this->error('Thanh toán không thành công.', redirectTo: '/danh-sach-phong');
 
     }
 

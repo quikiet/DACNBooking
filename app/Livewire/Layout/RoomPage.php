@@ -5,11 +5,12 @@ namespace App\Livewire\Layout;
 use App\Models\Room;
 use App\Models\TypeRoom;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class RoomPage extends Component
 {
     // public $typeRooms;
-
+    use Toast;
     public $adult = 0;
     public $children = 0;
 
@@ -40,8 +41,11 @@ class RoomPage extends Component
 
     public function render()
     {
-        // session()->remove('bookingCart');
-        // session()->forget('bookingCart');
+
+        if (session()->has('SuccessMessage')) {
+            $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
+        }
+
 
         $typeRooms = TypeRoom::withCount('availableRooms')
             ->where(

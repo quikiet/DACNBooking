@@ -1,4 +1,6 @@
 <div>
+
+
     <div class="bg-white">
         <div x-data="{open:false}">
 
@@ -107,13 +109,16 @@
                 </div>
             </div>
 
+            <!-- toast -->
+            <x-mary-toast />
+
             <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
                     <h1 class="text-4xl font-semibold tracking-tight text-gray-900">Phòng của chúng tôi</h1>
                     <div class="flex items-center">
                         <div class="relative inline-block text-left">
                             <button id="dropDownFilterButton" data-dropdown-toggle="dropDownFilter"
-                                class="text-gray-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                                class="text-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                                 type="button">Bộ lọc <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -122,24 +127,21 @@
                             </button>
                             <!-- Dropdown menu -->
                             <div id="dropDownFilter"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropDownFilterButton">
                                     <li>
                                         <a href="#"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                                            class="text-gray-700 block px-4 py-2 hover:bg-gray-100">Dashboard</a>
                                     </li>
                                     <li>
-                                        <a href="#"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                                        <a href="#" class="text-gray-700 block px-4 py-2 hover:bg-gray-100">Settings</a>
                                     </li>
                                     <li>
-                                        <a href="#"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                                        <a href="#" class="text-gray-700 block px-4 py-2 hover:bg-gray-100">Earnings</a>
                                     </li>
                                     <li>
-                                        <a href="#"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
+                                        <a href="#" class="text-gray-700 block px-4 py-2 hover:bg-gray-100">Sign
                                             out</a>
                                     </li>
                                 </ul>
@@ -179,31 +181,31 @@
                                     <div class="col-span-4">
                                         <div class="relative">
                                             <input type="date"
-                                                class="bg-gray-50 px-2.5 pb-2.5 pt-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                class="bg-gray-50 px-2.5 pb-2.5 pt-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 placeholder="Select date">
                                             <label for="floating_outlined"
-                                                class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Check-in
+                                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Check-in
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-span-4">
                                         <div class="relative">
                                             <input type="date"
-                                                class="bg-gray-50 px-2.5 pb-2.5 pt-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                class="bg-gray-50 px-2.5 pb-2.5 pt-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 placeholder="Select date">
                                             <label for="floating_outlined"
-                                                class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Check-out
+                                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Check-out
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-span-2 items-center flex gap-10 relative" wire:model.live="adult">
                                         <label for="floating_outlined"
-                                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 
+                                            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 
                                             peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Người
                                             lớn
                                         </label>
                                         <select id="underline_select" wire:model="adult"
-                                            class="block py-2.5 px-2 w-1/2 text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                                            class="block py-2.5 px-2 w-1/2 text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                                             <option class="px-2 mx-4" selected value="1">1</option>
                                             <option class="px-2 mx-4" value="2">2</option>
                                             <option class="px-2 mx-4" value="3">3</option>
@@ -219,12 +221,12 @@
                                     <div class="col-span-2 items-center flex gap-10 relative"
                                         wire:model.live="children">
                                         <label for="floating_outlined"
-                                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+                                            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
                                             Trẻ
                                             em
                                         </label>
                                         <select id="underline_select" wire:model="children"
-                                            class="block py-2.5 px-2 w-1/2 text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                                            class="block py-2.5 px-2 w-1/2 text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                                             <option class="px-2 mx-4" selected value="1">1</option>
                                             <option class="px-2 mx-4" value="2">2</option>
                                             <option class="px-2 mx-4" value="3">3</option>
@@ -248,7 +250,7 @@
                         <div class="lg:col-span-4">
                             @foreach ($typeRooms as $typeRoom)
                                 <div
-                                    class="flex flex-col mb-5 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:min-w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    class="flex flex-col mb-5 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:min-w-full hover:bg-gray-100">
                                     <div>
                                         <div class="md:grid grid-cols-5 md:flex-none overflow-hidden">
                                             <div class="col-span-2">
@@ -262,25 +264,25 @@
                                             <div
                                                 class="col-span-3 md:flex-auto md:min-h-full flex flex-col p-4 pt-2 leading-normal">
                                                 <h5
-                                                    class="mb-2 text-2xl md:text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                                    class="mb-2 text-2xl md:text-xl font-semibold tracking-tight text-gray-900 ">
                                                     {{$typeRoom->name}}
                                                 </h5>
                                                 <div>
 
 
 
-                                                    <!-- <p class="mb-1 font-normal text-gray-700 dark:text-gray-400">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Tiện nghi
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="flex gap-2">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
+                                                    <!-- <p class="mb-1 font-normal text-gray-700">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Tiện nghi
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="flex gap-2">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <small class="rounded-full bg-slate-300 px-1">Phòng tắm</small>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
 
                                                 </div>
                                                 <div>
-                                                    <p class="mb-1 font-normal text-gray-700 dark:text-gray-400">
+                                                    <p class="mb-1 font-normal text-gray-700">
                                                         Số lượng khách
                                                     </p>
                                                     <div class="flex gap-2">
@@ -294,12 +296,10 @@
                                                             em</small>
                                                     </div>
                                                     <div>
-                                                        <p
-                                                            class="mb-1 font-extralight text-s text-gray-700 dark:text-gray-400">
+                                                        <p class="mb-1 font-extralight text-s text-gray-700">
                                                             {{$typeRoom->description}}
                                                         </p>
-                                                        <a href="#"
-                                                            class="font-medium text-xs text-blue-600 dark:text-blue-500 underline">
+                                                        <a href="#" class="font-medium text-xs text-blue-600 underline">
                                                             Xem thêm
                                                         </a>
                                                     </div>
@@ -316,8 +316,8 @@
                                                             viewBox="0 -960 960 960" width="24px" fill="currentColor">
                                                             <path
                                                                 d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240Zm40 360q-83
-                                                                                                                                                                                                                 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
-                                                                                                                                                                                                                  156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                                                                                                                                                                                                                                                                                                                                                                                                                             0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
+                                                                                                                                                                                                                                                                                                                                                                                                                              156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
                                                         </svg>
                                                         <p>Yêu cầu đặt cọc 50%</p>
                                                     </div>
@@ -327,31 +327,45 @@
                                                     <p class="p-3"><span>{{ number_format($typeRoom->price, 0, ',', '.') }}
                                                             đ/đêm</span></p>
                                                     <div class="">
-                                                        <div>
-                                                            <p class="text-end p-3 text-red-500 font-bold text-xs">Chỉ còn
-                                                                {{$typeRoom->available_rooms_count}} phòng
-                                                            </p>
-                                                        </div>
-                                                        @if ($typeRoom->available_rooms_count <= 3 && $typeRoom->available_rooms_count > 0)
+                                                        @if ($typeRoom->available_rooms_count <= 5 && $typeRoom->available_rooms_count > 0)
+
+                                                            <div>
+                                                                <p class="text-end p-3 text-red-500 font-bold text-xs">Chỉ còn
+                                                                    {{$typeRoom->available_rooms_count}} phòng
+                                                                </p>
+                                                            </div>
                                                             <div>
                                                                 <button
                                                                     wire:click="addToCart({{ $typeRoom->room_type_id }}, 1, {{ $typeRoom->price }})"
-                                                                    class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                                                    class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
                                                                     Đặt ngay
                                                                 </button>
                                                             </div>
 
                                                         @elseif($typeRoom->available_rooms_count == 0)
                                                             <div>
-
-                                                                <button type="button"
-                                                                    class="text-white bg-gray-400 dark:bg-gray-500 cursor-not-allowed font-medium rounded-lg text-sm px-11 py-2 me-2 mb-2 text-center"
-                                                                    disabled>Đặt ngay</button>
-                                                            </div>
-                                                            <div>
-                                                                <p class="text-red-500 font-bold text-xs">
+                                                                <p class="text-red-500 font-bold text-xs text-end p-3">
                                                                     Hết phòng
                                                                 </p>
+                                                            </div>
+                                                            <div>
+
+                                                                <button type="button"
+                                                                    class="text-white bg-gray-400 cursor-not-allowed font-medium rounded-lg text-sm px-11 py-2 me-2 mb-2 text-center"
+                                                                    disabled>Đặt ngay</button>
+                                                            </div>
+                                                        @else
+                                                            <div>
+                                                                <p class="text-end p-3 text-green-500 font-bold text-xs">Còn
+                                                                    {{$typeRoom->available_rooms_count}} phòng
+                                                                </p>
+                                                            </div>
+                                                            <div>
+                                                                <button
+                                                                    wire:click="addToCart({{ $typeRoom->room_type_id }}, 1, {{ $typeRoom->price }})"
+                                                                    class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
+                                                                    Đặt ngay
+                                                                </button>
                                                             </div>
                                                         @endif
                                                     </div>

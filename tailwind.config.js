@@ -4,13 +4,12 @@ import forms from '@tailwindcss/forms';
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-
-        // flowbite
-        "./node_modules/flowbite/**/*.js",
-    ],
+		'./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+		 './storage/framework/views/*.php',
+		 './resources/views/**/*.blade.php',
+		 //flowbite"./node_modules/flowbite/**/*.js",
+		 "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
+	],
 
     theme: {
         extend: {
@@ -19,11 +18,13 @@ export default {
             },
         },
     },
+	daisyui: {
+		themes: ["light"],
+	  },
 
     plugins: [
-        forms,
-
-        // flowbite
-        require('flowbite/plugin'),
-    ],
+		forms,
+		//flowbiterequire('flowbite/plugin'),
+		require("daisyui")
+	],
 };
