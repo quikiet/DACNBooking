@@ -5,11 +5,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component {
+    use WithFileUploads;
     public string $name = '';
     public string $email = '';
-    public ?string $avatar = null;
+    public string $avatar = 'https://th.bing.com/th/id/R.e764fc1c705687a6f4770ac6ead4a955?rik=Ik0ulhYQHntUPg&pid=ImgRaw&r=0';
     public ?string $phone_number = null;
     public ?string $address = null;
     /**
@@ -17,15 +19,10 @@ new class extends Component {
      */
     public function mount(): void
     {
+
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
         $this->avatar = Auth::user()->avatar;
-        if ($this->avatar) {
-            $this->avatar = Auth::user()->avatar;
-        } else {
-            $this->avatar = 'https://static.vecteezy.com/system/resources/previews/024/983/914/original/simple-user-default-icon-free-png.png';
-        }
-
         $this->phone_number = Auth::user()->phone_number;
         $this->address = Auth::user()->address;
     }
@@ -42,6 +39,7 @@ new class extends Component {
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
             'phone_number' => ['nullable', 'regex:/^(0|\+84)[1-9][0-9]{8}$/'],
             'address' => ['nullable'],
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $user->fill($validated);
@@ -88,7 +86,7 @@ new class extends Component {
         <div class="grid grid-cols-3 gap-5">
             <div class="flex flex-col items-center border p-4 rounded-lg shadow">
                 <x-mary-file wire:model="photo" accept="image/png, image/jpeg">
-                    <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-40 w-32 rounded-lg" />
+                    <img src="{{ $avatar}}" class="h-40 w-32 rounded-lg" />
                 </x-mary-file>
                 <!-- <img class="w-36 h-48 mb-3 rounded-full shadow-lg" src="{{$avatar}}" alt="Bonnie image" /> -->
                 <div class="text-xl pt-5">{{$name}}</div>

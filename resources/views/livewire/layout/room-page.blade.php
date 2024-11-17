@@ -1,5 +1,7 @@
 <div>
 
+    <!-- toast -->
+    <x-mary-toast />
 
     <div class="bg-white">
         <div x-data="{open:false}">
@@ -108,9 +110,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- toast -->
-            <x-mary-toast />
 
             <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
