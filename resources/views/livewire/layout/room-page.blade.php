@@ -250,123 +250,111 @@
                         <!-- Product grid -->
                         <div class="lg:col-span-4">
                             @foreach ($typeRooms as $typeRoom)
-                                <div
-                                    class="flex flex-col mb-5 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:min-w-full hover:bg-gray-100">
-                                    <div>
-                                        <div class="md:grid grid-cols-5 md:flex-none overflow-hidden">
-                                            <div class="col-span-2">
-                                                @if ($typeRoom->room_images)
-                                                    @foreach ($typeRoom->room_images->take(1) as $image)
-                                                        <img class="object-cover w-full rounded-t-lg md:rounded-tr-none md:rounded-tl-lg h-96 md:h-full"
-                                                            src="{{Storage::url($image->image_url)}}" alt="Hình ảnh">
-                                                    @endforeach
-                                                @endif
-                                            </div>
-                                            <div
-                                                class="col-span-3 md:flex-auto md:min-h-full flex flex-col p-4 pt-2 leading-normal">
-                                                <h5
-                                                    class="mb-2 text-2xl md:text-xl font-semibold tracking-tight text-gray-900 ">
-                                                    {{$typeRoom->name}}
-                                                </h5>
-                                                <div>
-
+                                    <div
+                                        class="flex flex-col mb-5 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:min-w-full hover:bg-gray-100">
+                                        <div>
+                                            <div class="md:grid grid-cols-5 md:flex-none overflow-hidden">
+                                                <div class="col-span-2 md:max-h-[230px]">
+                                                    @if ($typeRoom->room_images)
+                                                        @foreach ($typeRoom->room_images->take(1) as $image)
+                                                            <img class="object-cover w-full rounded-t-lg md:rounded-tr-none md:rounded-tl-lg h-96 md:h-full"
+                                                                src="{{Storage::url($image->image_url)}}" alt="Hình ảnh">
+                                                        @endforeach
+                                                    @endif
                                                 </div>
-                                                <div>
-                                                    <p class="mb-1 font-normal text-gray-700">
-                                                        Số lượng khách
-                                                    </p>
-                                                    <div class="flex gap-2">
-                                                        <small
-                                                            class="rounded-full bg-slate-300 px-1"><span>{{$typeRoom->adult}}</span>
-                                                            Người
-                                                            lớn</small>
-                                                        <small
-                                                            class="rounded-full bg-slate-300 px-1"><span>{{$typeRoom->children}}</span>
-                                                            Trẻ
-                                                            em</small>
+                                                <div
+                                                    class="col-span-3 md:flex-auto md:min-h-full flex flex-col p-4 pt-2 leading-normal">
+                                                    <h5
+                                                        class="mb-2 text-2xl md:text-xl font-semibold tracking-tight text-gray-900 ">
+                                                        {{$typeRoom->name}}
+                                                    </h5>
+                                                    <div>
+
                                                     </div>
                                                     <div>
-                                                        <p class="mb-1 font-extralight text-s text-gray-700">
-                                                            {{$typeRoom->description}}
+                                                        <p class="mb-1 font-normal text-gray-700">
+                                                            Số lượng khách
                                                         </p>
-                                                        <a href="#" class="font-medium text-xs text-blue-600 underline">
-                                                            Xem thêm
-                                                        </a>
-                                                    </div>
-                                                    <div class="justify-end items-center flex gap-5">
-                                                        <p class="mb-1 font-semibold text-s text-gray-700">Số lượng
-                                                        </p>
-                                                        <input type="number" min="1"
-                                                            wire:model.lazy="quantities.{{ $typeRoom->room_type_id}}"
-                                                            value="{{ $quantities[$typeRoom->room_type_id] ?? 1 }}"
-                                                            max="{{ $typeRoom->available_rooms_count }}"
-                                                            class="input input-bordered w-12 max-w-xs" />
+                                                        <div class="flex gap-2">
+                                                            <small
+                                                                class="rounded-full bg-slate-300 px-1"><span>{{$typeRoom->adult}}</span>
+                                                                Người
+                                                                lớn</small>
+                                                            <small
+                                                                class="rounded-full bg-slate-300 px-1"><span>{{$typeRoom->children}}</span>
+                                                                Trẻ
+                                                                em</small>
+                                                        </div>
+                                                        <div>
+                                                            <p class="mb-1 font-extralight text-s text-gray-700">
+                                                                {{$typeRoom->description}}
+                                                            </p>
+                                                            <a href="#" class="font-medium text-xs text-blue-600 underline">
+                                                                Xem thêm
+                                                            </a>
+                                                        </div>
+                                                        <div class="justify-end items-center flex gap-5">
+                                                            <p class="mb-1 font-semibold text-s text-gray-700">Số lượng
+                                                            </p>
+                                                            <input type="number" min="1"
+                                                                wire:model.lazy="quantities.{{ $typeRoom->room_type_id}}"
+                                                                value="{{ $quantities[$typeRoom->room_type_id] ?? 1 }}"
+                                                                max="{{ $typeRoom->available_rooms_count }}"
+                                                                class="input input-bordered w-12 max-w-xs" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div>
-                                            <div
-                                                class="md:flex md:justify-between border-t-2 md:flex-none md:w-full md:m-auto md:min-h-full p-4">
-                                                <div>
-                                                    <div class="flex gap-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px"
-                                                            viewBox="0 -960 960 960" width="24px" fill="currentColor">
-                                                            <path
-                                                                d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240Zm40 360q-83
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
-                                                        </svg>
-                                                        <p>Yêu cầu đặt cọc 50%</p>
+                                            <div>
+                                                <div
+                                                    class="md:flex md:justify-between border-t-2 md:flex-none md:w-full md:m-auto md:min-h-full p-4">
+                                                    <div>
+                                                        <div class="flex gap-2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px"
+                                                                viewBox="0 -960 960 960" width="24px" fill="currentColor">
+                                                                <path
+                                                                    d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240Zm40 360q-83
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                                                            </svg>
+                                                            <p>Yêu cầu đặt cọc 50%</p>
+                                                        </div>
+                                                        <a href="#" class="underline text-xs">Xem chi tiết</a>
                                                     </div>
-                                                    <a href="#" class="underline text-xs">Xem chi tiết</a>
-                                                </div>
-                                                <div class="flex flex-col md:flex-row items-end">
-                                                    <p class="p-3"><span>{{ number_format($typeRoom->price, 0, ',', '.') }}
-                                                            đ/đêm</span></p>
-                                                    <div class="">
-                                                        @if ($typeRoom->available_rooms_count <= 5 && $typeRoom->available_rooms_count > 0)
+                                                    <div class="flex flex-col md:flex-row items-end">
+                                                        <p class="p-3"><span>{{ number_format($typeRoom->price, 0, ',', '.') }}
+                                                                đ/đêm</span></p>
+                                                        <div class="">
+                                                            @if (session()->get("available_rooms.$typeRoom->room_type_id", $typeRoom->available_rooms_count) > 0)
 
-                                                            <div>
-                                                                <p class="text-end p-3 text-red-500 font-bold text-xs">Chỉ còn
-                                                                    {{$typeRoom->available_rooms_count}} phòng
-                                                                </p>
-                                                            </div>
-                                                            <div>
-                                                                <button
-                                                                    wire:click="addToCart({{ $typeRoom->room_type_id }},{{ $quantities[$typeRoom->room_type_id] ?? 1 }}, {{ $typeRoom->price }})"
-                                                                    class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
-                                                                    Đặt ngay
-                                                                </button>
-                                                            </div>
+                                                                <div>
+                                                                    <p class="text-end p-3 text-green-500 font-bold text-xs">
+                                                                        Còn
+                                                                        {{ session()->get("available_rooms.$typeRoom->room_type_id", $typeRoom->available_rooms_count) }}
+                                                                        phòng
+                                                                    </p>
+                                                                </div>
+                                                                <div>
+                                                                    <button
+                                                                        wire:click="addToCart({{ $typeRoom->room_type_id }},{{ $quantities[$typeRoom->room_type_id] ?? 1 }}, {{ $typeRoom->price }})"
+                                                                        class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
+                                                                        Đặt ngay
+                                                                    </button>
+                                                                </div>
 
-                                                        @elseif($typeRoom->available_rooms_count <= 0)
-                                                            <div>
-                                                                <p class="text-red-500 font-bold text-xs text-end p-3">
-                                                                    Hết phòng
-                                                                </p>
-                                                            </div>
-                                                            <div>
+                                                            @else($typeRoom->available_rooms_count <= 0) <div>
+                                                                        <p class="text-red-500 font-bold text-xs text-end p-3">
+                                                                            Đã hết phòng
+                                                                        </p>
+                                                                </div>
+                                                                <div>
 
-                                                                <button type="button"
-                                                                    class="text-white bg-gray-400 cursor-not-allowed font-medium rounded-lg text-sm px-11 py-2 me-2 mb-2 text-center"
-                                                                    disabled>Đặt ngay</button>
-                                                            </div>
-                                                        @else
-                                                            <div>
-                                                                <p class="text-end p-3 text-green-500 font-bold text-xs">Còn
-                                                                    {{$typeRoom->available_rooms_count}} phòng
-                                                                </p>
-                                                            </div>
-                                                            <div>
-                                                                <button
-                                                                    wire:click="addToCart({{ $typeRoom->room_type_id }},{{ $quantities[$typeRoom->room_type_id] ?? 1 }}, {{ $typeRoom->price }})"
-                                                                    class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
-                                                                    Đặt ngay
-                                                                </button>
-                                                            </div>
-                                                        @endif
+                                                                    <button type="button"
+                                                                        class="text-white bg-gray-400 cursor-not-allowed font-medium rounded-lg text-sm px-11 py-2 me-2 mb-2 text-center"
+                                                                        disabled>Đặt ngay</button>
+                                                                </div>
+                                                            @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -375,17 +363,17 @@
 
                                 </div>
                             @endforeach
-                        </div>
+                    </div>
 
-                        <!-- cart booking -->
-                        <div class="lg:col-span-2">
-                            <div class="shadow border rounded sticky top-24 p-4">
-                                @livewire('layout.cart-booking')
-                            </div>
+                    <!-- cart booking -->
+                    <div class="lg:col-span-2">
+                        <div class="shadow border rounded sticky top-24 p-4">
+                            @livewire('layout.cart-booking')
                         </div>
                     </div>
-                </section>
-            </main>
         </div>
+        </section>
+        </main>
     </div>
+</div>
 </div>

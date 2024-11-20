@@ -10,18 +10,18 @@ use App\Models\TypeRoom;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use Mary\Traits\Toast;
 use Storage;
 
 class RoomTable extends Component
 {
     use WithFileUploads;
-
+    use WithPagination;
     use Toast;
 
     public RoomForm $roomForm;
     public RoomTypeForm $roomTypeForm;
-    public $rooms;
     public $roomId;
 
     public $room_type_id;
@@ -124,10 +124,10 @@ class RoomTable extends Component
         if (is_null($this->roomForm->status)) {
             $this->roomForm->status = 'available';
         }
-        $this->rooms = Room::with('typeRoom')->get();
+        $rooms = Room::with('typeRoom')->paginate(5);
         $typeRooms = TypeRoom::all();
         return view('livewire.admin.components.room-table', [
-            'rooms' => $this->rooms,
+            'rooms' => $rooms,
             'typeRooms' => $typeRooms,
         ]);
     }

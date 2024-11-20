@@ -1,15 +1,11 @@
 <div>
-    <div class="flex items-center justify-center min-h-screen bg-gray-100">
-        <div class="bg-white p-8 rounded-lg shadow-md max-w-sm text-center">
-            <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
-                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-                </svg>
-            </div>
-            <h2 class="text-2xl font-bold text-green-600 mb-2">Success</h2>
-            <p class="text-gray-600">We received your purchase request; we'll be in touch shortly!</p>
-        </div>
-    </div>
+    <form action="{{ route('vnpay') }}" method="post">
+        @csrf
+        <input type="hidden" name="vnpay" value="1">
+        <button type="submit"
+            class="py-2 mt-3 px-11 min-w-full me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
+            Đặt phòng
+        </button>
+    </form>
 
 </div>

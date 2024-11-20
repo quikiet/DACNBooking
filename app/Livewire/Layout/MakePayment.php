@@ -4,6 +4,7 @@ namespace App\Livewire\Layout;
 
 use App\Models\Booking;
 use App\Models\BookingDetail;
+use App\Models\Room;
 use Auth;
 use Illuminate\Http\Request;
 use Livewire\Component;
@@ -12,49 +13,82 @@ use Mary\Traits\Toast;
 class MakePayment extends Component
 {
     use Toast;
-    public function makePayment(Request $request)
+
+    public $bookingCart = [];
+
+    public $totalPay;
+    public function mount()
     {
-
-        $vnp_ResponseCode = $request->get('vnp_ResponseCode');
-        $vnp_TxnRef = $request->get('vnp_TxnRef'); // Mã bill
-
         $cart = session()->get('bookingCart', []);
-        $totalGuests = 0;
-        $totalPay = 0;
+        $this->totalPay = 0;
         foreach ($cart as $item) {
-            $totalPay += $item['price_per_room'] * $item['quantity'];
-            $totalGuests += $item['quantity'] * ($item['adult'] + $item['children']);
+            $this->totalPay += $item['price_per_room'] * $item['quantity'];
         }
 
-        if ($vnp_ResponseCode == "00") {
-
-            $booking = Booking::create([
-                'user_id' => Auth::id(),
-                'check_in' => now()->addDays(1),
-                'check_out' => now()->addDays(2),
-                'total_pay' => $totalPay,
-                'total_guests' => $totalGuests,
-                'status' => 'pending',
-                'refund' => false,
-            ]);
-
-            foreach ($cart as $item) {
-                BookingDetail::create([
-                    'booking_id' => $booking->booking_id,
-                    'room_type_id' => $item['room_type_id'],
-                    'quantity' => $item['quantity'],
-                    'price_per_room' => $item['price_per_room'],
-                ]);
-            }
-            session()->forget('bookingCart');
-            return redirect('/danh-sach-phong')->with('SuccessMessage');
-        }
-        $this->error('Thanh toán không thành công.', redirectTo: '/danh-sach-phong');
+        $this->bookingCart = session()->get('bookingCart', []);
 
     }
 
+    // public function makePayment(Request $request)
+    // {
+
+    //     $vnp_ResponseCode = $request->get('vnp_ResponseCode');
+    //     $vnp_TxnRef = $request->get('vnp_TxnRef'); // Mã bill
+
+    //     $cart = session()->get('bookingCart', []);
+    //     $totalGuests = 0;
+    //     $totalPay = 0;
+    //     foreach ($cart as $item) {
+    //         $totalPay += $item['price_per_room'] * $item['quantity'];
+    //         $totalGuests += $item['quantity'] * ($item['adult'] + $item['children']);
+    //     }
+
+    //     if ($vnp_ResponseCode == "00") {
+
+    //         $booking = Booking::create([
+    //             'user_id' => Auth::id(),
+    //             'check_in' => now()->addDays(1),
+    //             'check_out' => now()->addDays(2),
+    //             'total_pay' => $totalPay,
+    //             'bill_code' => $vnp_TxnRef,
+    //             'total_guests' => $totalGuests,
+    //             'status' => 'pending',
+    //             'refund' => false,
+    //         ]);
+
+    //         foreach ($cart as $item) {
+    //             BookingDetail::create([
+    //                 'booking_id' => $booking->booking_id,
+    //                 'room_type_id' => $item['room_type_id'],
+    //                 'quantity' => $item['quantity'],
+    //                 'price_per_room' => $item['price_per_room'],
+    //             ]);
+
+    //             $bookedToRoom = Room::where('room_type_id', $item['room_type_id'])
+    //                 ->where('status', 'available')
+    //                 ->take($item['quantity'])->get();
+
+    //             foreach ($bookedToRoom as $room) {
+    //                 $room->update(['status' => 'booked']);
+    //             }
+    //         }
+    //         session()->forget('bookingCart');
+    //         $this->success(
+    //             title: 'It is done!',
+    //             description: null,                  // optional (text)
+    //             position: 'toast-top toast-end',    // optional (daisyUI classes)
+    //             icon: 'o-information-circle',       // Optional (any icon)
+    //             css: 'alert-info',                  // Optional (daisyUI classes)
+    //             timeout: 3000,                      // optional (ms)
+    //         );
+    //         redirect('/danh-sach-phong')->with('SuccessMessage');
+    //     }
+    //     $this->error('Thanh toán không thành công.', redirectTo: '/danh-sach-phong');
+
+    // }
+
     public function render()
     {
-        return view('livewire.layout.make-payment');
+        return view('livewire.layout.make-payment', ['cart' => $this->bookingCart]);
     }
 }

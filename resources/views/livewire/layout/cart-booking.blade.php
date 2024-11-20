@@ -2,7 +2,8 @@
     <div class="py-4">
         <div class="md:flex justify-between md:min-w-full py-1">
             <p>
-                Tue, 12 Nov 24 – Wed, 13 Nov 24
+                {{ \Carbon\Carbon::now()->addDays(1)->locale('vi')->translatedFormat('d F Y') }} –
+                {{ \Carbon\Carbon::now()->addDays(2)->locale('vi')->translatedFormat('d F Y') }}
             </p>
             <p>
                 1 night
@@ -30,21 +31,38 @@
                             </svg>
                         </button>
                     </div>
-                    <p> {{ $item['quantity'] }} phòng</p>
                     <div class="flex justify-between items-center">
-                        <p>Số lượng khách : {{$item['adult'] + $item['children']}}</p>
-                        <p>Giá: {{ number_format($item['price_per_room'], '0', ',', '.') }} VND</p>
+                        <p class="text-sm">Số lượng khách : {{($item['adult'] + $item['children']) * $item['quantity']}} -
+                        <p class="text-sm">
+                            {{ $item['quantity'] }} phòng
+                        </p>
+                        </p>
+                        <p>Giá: {{ number_format($item['price_per_room'] * $item['quantity'], '0', ',', '.') }} VND</p>
                     </div>
+                    <small class=" text-gray-400 flex items-center gap-2">
+                        <i class='bx bxs-user'></i>{{$item['adult'] * $item['quantity']}}
+                        <i class='bx bx-child text-lg'></i> {{$item['children'] * $item['quantity']}}
+                    </small>
                 </div>
             @endforeach
-            <form action="{{ route('vnpay') }}" method="post">
-                @csrf
-                <input type="hidden" name="vnpay" value="1">
-                <button type="submit"
-                    class="py-2 mt-3 px-11 min-w-full me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
+            <div>
+                <div class="cart-item border-t py-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="font-semibold">
+                            Tổng tiền
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold">Giá: {{number_format($totalPay, 0, ',', '.')}} VND</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full py-2 text-sm font-medium cursor-pointer text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 text-center"
+                    @click="window.location.href = '{{ route('payment') }}'">
                     Đặt phòng
-                </button>
-            </form>
+                </div>
+
+
+            </div>
         @else
             <div class="border-t flex items-center flex-col">
                 <p class="pt-2 pb-4">Chọn 1 phòng để tiếp tục.</p>

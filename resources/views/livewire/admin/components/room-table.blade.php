@@ -230,6 +230,10 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="my-3">
+                {{ $rooms->links() }}
+
+            </div>
         </div>
 
     </div>

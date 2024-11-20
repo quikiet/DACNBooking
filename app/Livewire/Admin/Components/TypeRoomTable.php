@@ -8,6 +8,7 @@ use App\Models\TypeRoom;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use Mary\Traits\Toast;
 use Storage;
 
@@ -16,7 +17,7 @@ class TypeRoomTable extends Component
 
     use WithFileUploads;
     use Toast;
-    public $type_Rooms; // Khai báo thuộc tính để lưu trữ dữ liệu
+    use WithPagination;
     public RoomTypeForm $roomTypeForm;
 
     public $typeRoomId;
@@ -29,17 +30,11 @@ class TypeRoomTable extends Component
     public $existingImages = [];
     #[Validate(['images.*' => 'image|max:1024'])]
     public $images = [];
-    public function mount()
-    {
-        // Lấy tất cả kiểu phòng từ model
-        $this->type_Rooms = TypeRoom::all();
-    }
 
     public function add()
     {
         $this->validate();
         $Newtype_Rooms = TypeRoom::create($this->roomTypeForm->pull());
-        $this->type_Rooms = TypeRoom::all();
 
         if (!empty($this->images)) {
             foreach ($this->images as $image) {
@@ -52,6 +47,7 @@ class TypeRoomTable extends Component
         }
 
         $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
+
         $this->dispatch('close-modal');
     }
 
@@ -71,7 +67,7 @@ class TypeRoomTable extends Component
 
             $tr->delete();
             $this->typeRoomId = null;
-            $this->mount();
+
             $this->success("Xoá phòng thành công!", "Bạn đã xoá phòng thành công", "toast-top toast-center");
 
         }
@@ -134,7 +130,7 @@ class TypeRoomTable extends Component
             $this->success("Cập nhật thành công!", "Bạn đã cập nhật kiểu phòng thành công", "toast-top toast-center");
             session()->flash('message', "");
         }
-        $this->mount();
+
         $this->dispatch('close-modal');
     }
 
@@ -147,7 +143,8 @@ class TypeRoomTable extends Component
 
     public function render()
     {
-        return view('livewire.admin.components.type-room-table', ['type_Rooms' => $this->type_Rooms]);
+        $type_Rooms = TypeRoom::paginate(5);
+        return view('livewire.admin.components.type-room-table', ['type_Rooms' => $type_Rooms]);
     }
 
 }

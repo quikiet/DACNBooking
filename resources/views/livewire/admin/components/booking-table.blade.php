@@ -1,15 +1,10 @@
 <div class="p-6">
     <div class="flex py-5 justify-between">
 
-        <h1 class="text-2xl font-bold mb-4 text-gray-200">Danh Sách Đặt Phòng</h1>
-        <!-- Modal toggle -->
-        <button @click="open = !open"
-            class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            type="button">
-            Thêm
-        </button>
+        <h1 class="text-2xl font-bold mb-4 text-gray-200">Danh Sách Đơn Đặt Phòng</h1>
+
     </div>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -17,6 +12,7 @@
                     <th scope="col" class="px-6 py-3">Ngày tạo</th>
                     <th scope="col" class="px-6 py-3">Tên người dùng</th>
                     <th scope="col" class="px-6 py-3">Tổng tiền</th>
+                    <th scope="col" class="px-6 py-3">Mã hoá đơn</th>
                     <th scope="col" class="px-6 py-3">Khách</th>
                     <th scope="col" class="px-6 py-3">Trạng thái</th>
                 </tr>
@@ -32,6 +28,7 @@
                             {{$booking->user->name}}
                         </th>
                         <td scope="row" class="px-6 py-4">{{ number_format($booking->total_pay, 0, ',', '.') }} VNĐ</td>
+                        <td scope="row" class="px-6 py-4">{{$booking->bill_code}}</td>
                         <td scope="row" class="px-6 py-4">{{ $booking->total_guests }}</td>
                         <td scope="row" class="px-6 py-4">
                             @if ($booking->status == 'booked')

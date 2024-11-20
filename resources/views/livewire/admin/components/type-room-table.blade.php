@@ -98,9 +98,11 @@
                                 <div class="col-span-2">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                         for="multiple_files">Hình ảnh</label>
-                                    <input
+                                    <!-- <input
                                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                        id="multiple_files" wire:model.live="images" type="file" multiple>
+                                        id="multiple_files" wire:model.live="images" type="file" multiple> -->
+                                    <input type="file" multiple wire:model.live="images"
+                                        class="file-input file-input-bordered w-full max-w-xs" />
                                     @if ($images)
                                         <ul class="text-blue-400">
                                             @foreach ($images as $image)
@@ -242,6 +244,10 @@
             </table>
         </div>
 
+        <div class="my-3">
+            <!-- Hiển thị phân trang -->
+            {{ $type_Rooms->links() }}
+        </div>
 
     </div>
 </div>

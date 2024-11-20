@@ -20,6 +20,23 @@ class Room extends Model
         'room_type_id',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($room) {
+            $room->typeRoom->updateRoomCounts();
+        });
+
+        static::updated(function ($room) {
+            $room->typeRoom->updateRoomCounts();
+        });
+
+        static::deleted(function ($room) {
+            $room->typeRoom->updateRoomCounts();
+        });
+    }
+
     public function typeRoom()
     {
         return $this->belongsTo(TypeRoom::class, 'room_type_id', 'room_type_id');

@@ -12,7 +12,7 @@ class VnpayPayment extends Component
     public function vnpay()
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = route('vnpay.return');
+        $vnp_Returnurl = route('finish');
         $vnp_TmnCode = "YN0DQBNP";//Mã website tại VNPAY 
         $vnp_HashSecret = "FX7J6EH7E7MQEZMUO9QUB6XTQX8LBCBY"; //Chuỗi bí mật
 
