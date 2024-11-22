@@ -1,4 +1,6 @@
 <div class="p-6">
+    <!-- toast -->
+    <x-mary-toast />
     <div class="flex py-5 justify-between">
 
         <h1 class="text-2xl font-bold mb-4 text-gray-200">Danh Sách Đơn Đặt Phòng</h1>
@@ -31,14 +33,17 @@
                         <td scope="row" class="px-6 py-4">{{$booking->bill_code}}</td>
                         <td scope="row" class="px-6 py-4">{{ $booking->total_guests }}</td>
                         <td scope="row" class="px-6 py-4">
-                            @if ($booking->status == 'booked')
-                                <span class=" px-3 py-2 bg-green-500 rounded-full text-white">Xác nhận</span>
-                            @elseif($booking->status == 'pending')
-                                <span class=" px-3 py-2 bg-yellow-400 rounded-full text-white">Đang chờ</span>
-                            @else
-                                <span class=" px-3 py-2 bg-red-600 rounded-full text-white">Đã huỷ</span>
-                            @endif
+                            <select class="rounded px-3 py-2 bg-gray-700 text-white"
+                                wire:change="updateStatus({{ $booking->booking_id }}, $event.target.value)"
+                                wire:model.defer="bookings.status">
+                                <option value="booked" {{ $booking->status == 'booked' ? 'selected' : '' }}>Xác nhận</option>
+                                <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Đang chờ
+                                </option>
+                                <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>Đã huỷ
+                                </option>
+                            </select>
                         </td>
+
 
                     </tr>
                 @endforeach

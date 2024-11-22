@@ -17,14 +17,18 @@ class VnpayPayment extends Component
         $vnp_HashSecret = "FX7J6EH7E7MQEZMUO9QUB6XTQX8LBCBY"; //Chuỗi bí mật
 
         $cart = session()->get('bookingCart', []);
+        // dd($bookingInfo);
+        // dd($cart);
         $totalPay = 0;
-        $totalGuests = 0;
+
         foreach ($cart as $item) {
-            $totalPay += $item['price_per_room'] * $item['quantity'];
-            $totalGuests += $item['quantity'] * ($item['adult'] + $item['children']);
+            if (isset($item['price_per_room']) && isset($item['quantity'])) {
+                $totalPay += $item['price_per_room'] * $item['quantity'];
+            }
+
         }
 
-        $vnp_TxnRef = time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
+        $vnp_TxnRef = "HotelK" . time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
         $vnp_OrderInfo = "Thanh toán đơn hàng #" . $vnp_TxnRef;
         $vnp_OrderType = "Thanh toán VNPay";
         $vnp_Amount = $totalPay * 100;
@@ -35,7 +39,7 @@ class VnpayPayment extends Component
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
-            "vnp_Amount" => $vnp_Amount,
+            "vnp_Amount" => (int) $vnp_Amount,
             "vnp_Command" => "pay",
             "vnp_CreateDate" => date('YmdHis'),
             "vnp_CurrCode" => "VND",

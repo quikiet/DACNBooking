@@ -54,7 +54,7 @@ new class extends Component
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-900 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
 
                             <div class="ms-1">
@@ -75,6 +75,12 @@ new class extends Component
                             {{ __('Trang quản lý') }}
                         </x-dropdown-link>
                         @endif
+                        <x-dropdown-link target="__blank" href="http://localhost/phpmyadmin/index.php?route=/database/structure&db=bookinghoteldacn">
+                            {{ __('Cơ sở dữ liệu') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('history')">
+                            {{ __('Lịch sử đơn đặt phòng') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>

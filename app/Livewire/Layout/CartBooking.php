@@ -30,6 +30,11 @@ class CartBooking extends Component
         $this->bookingCart = session()->get('bookingCart', []);
     }
 
+    public function mount()
+    {
+        // $this->refresh();
+    }
+
     public function removeFromCart($typeRoomId)
     {
         $cart = session()->get('bookingCart', []);

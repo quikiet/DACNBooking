@@ -26,6 +26,10 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+Route::view('lich-su-dat-phong', 'livewire.pages.booking-history')
+    ->middleware(['auth'])
+    ->name('history');
+
 Route::view('danh-sach-phong', 'livewire.pages.room')
     // ->middleware(['auth', 'verified'])
     ->name('room');
@@ -44,7 +48,7 @@ Route::post('danh-sach-phong/thanh-toan-vnpay', [VnpayPayment::class, 'vnpay'])
     ->middleware(['auth', 'verified'])
     ->name('vnpay');
 
-Route::view('danh-sach-phong/thuc-hien-thanh-toan', 'livewire/layout/make-payment')
+Route::view('danh-sach-phong/thuc-hien-thanh-toan', 'livewire/pages/booking-fill-info')
     ->middleware(['auth', 'verified'])
     ->name('payment');
 

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Layout;
 
+use App\Livewire\Forms\bookingInfoForm;
 use App\Models\Booking;
 use App\Models\BookingDetail;
 use App\Models\Room;
@@ -13,12 +14,32 @@ use Mary\Traits\Toast;
 class MakePayment extends Component
 {
     use Toast;
+    public bookingInfoForm $bookForm;
 
     public $bookingCart = [];
 
     public $totalPay;
+
+    public $showModal = false;
+
+    // public function resetInfor()
+    // {
+    //     $cart = session()->get('bookingCart', []);
+    //     $cart = [
+    //         'user_id' => '',
+    //         'customer_name' => '',
+    //         'customer_email' => '',
+    //         'customer_phone' => '',
+    //         'customer_address' => '',
+    //         'check_in' => '',
+    //         'check_out' => '',
+    //     ];
+    //     session()->put('bookingCart', $cart);
+    // }
+
     public function mount()
     {
+        // $this->resetInfor();
         $cart = session()->get('bookingCart', []);
         $this->totalPay = 0;
         foreach ($cart as $item) {
@@ -26,7 +47,23 @@ class MakePayment extends Component
         }
 
         $this->bookingCart = session()->get('bookingCart', []);
+    }
 
+    public function fillInfor()
+    {
+        $this->bookForm->validate();
+        // $cart = session()->get('bookingCart', []);
+        $bookingInfo = [
+            'user_id' => auth()->id(), // Lấy user đăng nhập
+            'customer_name' => $this->bookForm->customer_name,
+            'customer_email' => $this->bookForm->customer_email,
+            'customer_phone' => $this->bookForm->customer_phone,
+            'customer_address' => $this->bookForm->customer_address,
+            'check_in' => now()->addDays(1),
+            'check_out' => now()->addDays(2),
+        ];
+        session()->put('bookingInfo', $bookingInfo);
+        $this->showModal = true;
     }
 
     // public function makePayment(Request $request)
@@ -89,6 +126,7 @@ class MakePayment extends Component
 
     public function render()
     {
+        // session()->flush();
         return view('livewire.layout.make-payment', ['cart' => $this->bookingCart]);
     }
 }

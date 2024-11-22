@@ -29,7 +29,8 @@ class RoomPage extends Component
     public function mount()
     {
         $this->typeRooms = TypeRoom::all();
-
+        $this->bookingCart = session()->remove('bookingCart', []);
+        // $this->bookingCart = session()->get('bookingCart');
         foreach ($this->typeRooms as $typeRoom) {
             $this->quantities[$typeRoom->room_type_id] = 1;
         }
@@ -97,7 +98,7 @@ class RoomPage extends Component
     {
         $typeRoom = TypeRoom::findOrFail($roomTypeId);
         $availableRooms = session()->get("available_rooms.$roomTypeId", $typeRoom->available_rooms_count);
-
+        $image = $typeRoom->room_images->first()?->image_url;
         if ($availableRooms >= $quantity) {
 
             $cart = session()->get('bookingCart', []);
@@ -117,6 +118,8 @@ class RoomPage extends Component
                     'adult' => $typeRoom->adult,
                     'children' => $typeRoom->children,
                     'room_type_name' => $typeRoom->name,
+                    'description' => $typeRoom->description,
+                    'image' => $image,
                 ];
                 $this->dispatch('refreshCart');
             }

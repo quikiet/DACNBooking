@@ -14,6 +14,10 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'booking_id',
+        'customer_name',
+        'customer_email',
+        'customer_phone',
+        'customer_address',
         'check_in',
         'check_out',
         'bill_code',
@@ -24,7 +28,7 @@ class Booking extends Model
     ];
     public function bookingDetail()
     {
-        return $this->hasMany(BookingDetail::class);
+        return $this->hasMany(BookingDetail::class, 'booking_id', 'booking_id');
     }
 
     public function user()

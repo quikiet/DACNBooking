@@ -26,8 +26,8 @@
         <div class="sticky top-0 z-50">
             <livewire:layout.navigation />
         </div>
-        <div class="">
-
+        <!-- <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> -->
+        <div>
             @yield('content')
         </div>
         <!-- Page Heading -->

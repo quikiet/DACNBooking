@@ -18,6 +18,8 @@ class PaymentFinish extends Component
         $vnp_TxnRef = $request->get('vnp_TxnRef'); // Mã bill
 
         $cart = session()->get('bookingCart', []);
+        $bookingInfo = session()->get('bookingInfo', []);
+        // dd($cart);
         $totalGuests = 0;
         $totalPay = 0;
         foreach ($cart as $item) {
@@ -28,9 +30,13 @@ class PaymentFinish extends Component
         if ($vnp_ResponseCode == "00") {
 
             $booking = Booking::create([
-                'user_id' => Auth::id(),
-                'check_in' => now()->addDays(1),
-                'check_out' => now()->addDays(2),
+                'user_id' => $bookingInfo['user_id'],
+                'check_in' => $bookingInfo['check_in'],
+                'check_out' => $bookingInfo['check_out'],
+                'customer_name' => $bookingInfo['customer_name'],
+                'customer_email' => $bookingInfo['customer_email'],
+                'customer_phone' => $bookingInfo['customer_phone'],
+                'customer_address' => $bookingInfo['customer_address'],
                 'total_pay' => $totalPay,
                 'bill_code' => $vnp_TxnRef,
                 'total_guests' => $totalGuests,

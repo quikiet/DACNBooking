@@ -128,7 +128,6 @@ class TypeRoomTable extends Component
         }
         if ($isUpdated) {
             $this->success("Cập nhật thành công!", "Bạn đã cập nhật kiểu phòng thành công", "toast-top toast-center");
-            session()->flash('message', "");
         }
 
         $this->dispatch('close-modal');
