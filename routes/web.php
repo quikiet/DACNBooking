@@ -44,6 +44,10 @@ Route::view('lien-he', 'livewire.pages.contact')
     ->middleware(['auth', 'verified'])
     ->name('contact');
 
+Route::view('ve-chung-toi', 'livewire.pages.about')
+    ->middleware(['auth', 'verified'])
+    ->name('about');
+
 Route::post('danh-sach-phong/thanh-toan-vnpay', [VnpayPayment::class, 'vnpay'])
     ->middleware(['auth', 'verified'])
     ->name('vnpay');

@@ -4,7 +4,7 @@
     <!-- toast -->
     <x-mary-toast />
 
-    <div class="bg-white">
+    <div class="">
         <div x-data="{open:false}">
 
             <!-- cart booking -->
@@ -114,7 +114,7 @@
 
 
             <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
+                <!-- <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
                     <h1 class="text-4xl font-semibold tracking-tight text-gray-900">Phòng của chúng tôi</h1>
                     <div class="flex items-center">
                         <div class="relative inline-block text-left">
@@ -126,7 +126,6 @@
                                         stroke-width="2" d="m1 1 4 4 4-4" />
                                 </svg>
                             </button>
-                            <!-- Dropdown menu -->
                             <div id="dropDownFilter"
                                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -171,11 +170,12 @@
                             </svg>
                         </button>
                     </div>
-                </div>
+                </div> -->
 
-                <section aria-labelledby="products-heading" class="pb-24 pt-6">
+                <section aria-labelledby="products-heading" class="pb-10 pt-6">
+                    <!-- form filter -->
 
-                    <div>
+                    <!-- <div>
                         <div class="p-4 shadow bg-white rounded border mb-3">
                             <form class="w-full">
                                 <div class="md:grid-cols-12 items-center gap-5 grid grid-cols-2">
@@ -243,7 +243,9 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div> -->
+
+                    <!-- form filter -->
 
                     <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
 
@@ -251,7 +253,7 @@
                         <div class="lg:col-span-4">
                             @foreach ($typeRooms as $typeRoom)
                                     <div
-                                        class="flex flex-col mb-5 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:min-w-full hover:bg-gray-100">
+                                        class="flex flex-col mb-5 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:min-w-full">
                                         <div>
                                             <div class="md:grid grid-cols-5 md:flex-none overflow-hidden">
                                                 <div class="col-span-2 md:max-h-[230px]">
@@ -314,8 +316,8 @@
                                                                 viewBox="0 -960 960 960" width="24px" fill="currentColor">
                                                                 <path
                                                                     d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240Zm40 360q-83
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
                                                             </svg>
                                                             <p>Yêu cầu đặt cọc 50%</p>
                                                         </div>
@@ -337,7 +339,7 @@
                                                                 <div>
                                                                     <button
                                                                         wire:click="addToCart({{ $typeRoom->room_type_id }},{{ $quantities[$typeRoom->room_type_id] ?? 1 }}, {{ $typeRoom->price }})"
-                                                                        class="py-2 px-11 me-2 mb-2 text-sm font-medium text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 ">
+                                                                        class="py-2 px-11 me-2 mb-2 text-sm font-semibold text-gray-900 focus:outline-none bg-orange-400 rounded-lg border hover:bg-orange-500  hover:shadow focus:z-10 focus:ring-4 focus:ring-orange-100 ">
                                                                         Đặt ngay
                                                                     </button>
                                                                 </div>
@@ -366,12 +368,12 @@
 
                     <!-- cart booking -->
                     <div class="lg:col-span-2">
-                        <div class="shadow border rounded sticky top-24 p-4">
+                        <div class="shadow border rounded bg-white sticky top-24 p-4">
                             @livewire('layout.cart-booking')
                         </div>
                     </div>
+                </section>
         </div>
-        </section>
         </main>
     </div>
 </div>

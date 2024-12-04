@@ -15,6 +15,9 @@
     <!-- boxicon -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
+    <!-- swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -36,6 +39,11 @@
         <main>
             {{ $slot }}
         </main>
+
+        <div>
+            @livewire('layout.footer')
+
+        </div>
     </div>
 
     @yield('script')
@@ -43,6 +51,9 @@
     @livewireScripts
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <!-- Swiper JS -->
+
+
 </body>
 
 </html>

@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full py-2 text-sm font-medium cursor-pointer text-gray-100 focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-gray-50 hover:shadow focus:z-10 focus:ring-4 focus:ring-gray-100 text-center"
+                <div class="w-full py-2 text-sm font-semibold cursor-pointer text-gray-900 focus:outline-none bg-orange-400 rounded-lg border hover:bg-orange-500 hover:shadow focus:z-10 focus:ring-4 text-center"
                     @click="window.location.href = '{{ route('payment') }}'">
                     Đặt phòng
                 </div>
@@ -67,7 +67,7 @@
             <div class="border-t flex items-center flex-col">
                 <p class="pt-2 pb-4">Chọn 1 phòng để tiếp tục.</p>
                 <button type="button"
-                    class="text-white min-w-full bg-green-400  cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class="text-gray-900 min-w-full bg-orange-300 bg-opacity-90 cursor-not-allowed font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
                     disabled>Đặt phòng</button>
             </div>
         @endif
