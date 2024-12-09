@@ -25,25 +25,23 @@
 </head>
 
 <body class=" font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        <div class="sticky top-0 z-50">
-            <livewire:layout.navigation />
-        </div>
-        <!-- <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> -->
-        <div>
-            @yield('content')
-        </div>
-        <!-- Page Heading -->
+    <div class="sticky top-0 z-50">
+        <livewire:layout.navigation />
+    </div>
+    <!-- <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> -->
+    <div>
+        @yield('content')
+    </div>
+    <!-- Page Heading -->
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+    <!-- Page Content -->
+    <main>
+        {{ $slot }}
+    </main>
 
-        <div>
-            @livewire('layout.footer')
+    <div>
+        @livewire('layout.footer')
 
-        </div>
     </div>
 
     @yield('script')

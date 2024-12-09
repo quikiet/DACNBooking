@@ -13,7 +13,8 @@ class RoomPage extends Component
     use Toast;
     public $adult = 0;
     public $children = 0;
-
+    public $check_in;
+    public $check_out;
     public $bookingCart = [];
 
     public $quantities = [];
@@ -31,9 +32,36 @@ class RoomPage extends Component
         $this->typeRooms = TypeRoom::all();
         $this->bookingCart = session()->remove('bookingCart', []);
         // $this->bookingCart = session()->get('bookingCart');
+
+        $this->check_in = now()->toDateString();
+        $this->check_out = now()->addDay()->toDateString();
+
         foreach ($this->typeRooms as $typeRoom) {
             $this->quantities[$typeRoom->room_type_id] = 1;
         }
+
+    }
+
+    public function searchRooms()
+    {
+        $this->validate([
+            'check_in' => 'required|date',
+            'check_out' => 'required|date|after:check_in',
+        ]);
+
+        // Lọc các loại phòng đã có phòng trống trong khoảng thời gian này
+        $this->typeRooms = TypeRoom::whereHas('rooms', function ($query) {
+            $query->whereDoesntHave('bookings', function ($query) {
+                $query->where(function ($q) {
+                    $q->whereBetween('check_in', [$this->check_in, $this->check_out])
+                        ->orWhereBetween('check_out', [$this->check_in, $this->check_out])
+                        ->orWhere(function ($q) {
+                            $q->where('check_in', '<=', $this->check_in)
+                                ->where('check_out', '>=', $this->check_out);
+                        });
+                });
+            });
+        })->get();
     }
 
     // public function addToCart($typeRoomId, $quantity, $pricePerRoom)
