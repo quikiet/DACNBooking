@@ -13,11 +13,11 @@ class VnpayPayment extends Component
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('finish');
-        $vnp_TmnCode = "YN0DQBNP";//Mã website tại VNPAY 
-        $vnp_HashSecret = "FX7J6EH7E7MQEZMUO9QUB6XTQX8LBCBY"; //Chuỗi bí mật
+        $vnp_TmnCode = "HOOKW2BU";//Mã website tại VNPAY 
+        $vnp_HashSecret = "ADV9ILTW310TR40REROQSGPCJLCZIY7H"; //Chuỗi bí mật
 
         $cart = session()->get('bookingCart', []);
-        // dd($bookingInfo);
+        // dd($bookingCart);
         // dd($cart);
         $totalPay = 0;
 
@@ -29,8 +29,8 @@ class VnpayPayment extends Component
         }
 
         $vnp_TxnRef = "HotelK" . time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
-        $vnp_OrderInfo = "Thanh toán đơn hàng #" . $vnp_TxnRef;
-        $vnp_OrderType = "Thanh toán VNPay";
+        $vnp_OrderInfo = "Thanh toán VNPay: #" . $vnp_TxnRef;
+        $vnp_OrderType = "kh";
         $vnp_Amount = $totalPay * 100;
         $vnp_Locale = "vn";
         $vnp_BankCode = "NCB";
@@ -86,8 +86,7 @@ class VnpayPayment extends Component
             'data' => $vnp_Url
         );
         if (isset($_POST['vnpay'])) {
-            header('Location: ' . $vnp_Url);
-            die();
+            return redirect($vnp_Url);
         } else {
             echo json_encode($returnData);
         }
