@@ -19,8 +19,15 @@ class MakePayment extends Component
     public $bookingCart = [];
 
     public $totalPay;
+    public $check_in;
+    public $check_out;
 
     public $showModal = false;
+
+    public $rules = [
+        'check_in' => 'required|date|after_or_equal:today',
+        'check_out' => 'required|date|after:check_in',
+    ];
 
     // public function resetInfor()
     // {
@@ -39,6 +46,8 @@ class MakePayment extends Component
 
     public function mount()
     {
+        $this->check_in = now()->addDay(1)->toDateString();
+        $this->check_out = now()->addDay(2)->toDateString();
         // $this->resetInfor();
         $cart = session()->get('bookingCart', []);
         $this->totalPay = 0;
@@ -52,6 +61,7 @@ class MakePayment extends Component
     public function fillInfor()
     {
         $this->bookForm->validate();
+        $this->validate();
         // $cart = session()->get('bookingCart', []);
         $bookingInfo = [
             'user_id' => auth()->id(), // Lấy user đăng nhập
@@ -59,8 +69,8 @@ class MakePayment extends Component
             'customer_email' => $this->bookForm->customer_email,
             'customer_phone' => $this->bookForm->customer_phone,
             'customer_address' => $this->bookForm->customer_address,
-            'check_in' => now()->addDays(1),
-            'check_out' => now()->addDays(2),
+            'check_in' => $this->check_in,
+            'check_out' => $this->check_out,
         ];
         session()->put('bookingInfo', $bookingInfo);
         $this->showModal = true;

@@ -55,7 +55,6 @@ class PaymentFinish extends Component
                 $bookedToRoom = Room::where('room_type_id', $item['room_type_id'])
                     ->where('status', 'available')
                     ->take($item['quantity'])->get();
-
                 foreach ($bookedToRoom as $room) {
                     $room->update(['status' => 'booked']);
                 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Middleware\isAdminMiddleware;
+use App\Livewire\Admin\Components\ChooseRoom;
 use App\Livewire\Admin\Dashboard;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -50,4 +51,9 @@ Route::middleware(['auth', isAdminMiddleware::class])->group(function () {
 
     Route::view('admin/bookings', 'livewire.admin.booking-dash')
         ->name('admin.booking-dash');
+
+
+    Route::view('admin/choose-room', 'livewire.admin.choose-room-dash')
+        ->name('admin.choose-room');
+
 });
