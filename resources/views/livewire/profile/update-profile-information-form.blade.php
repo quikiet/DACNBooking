@@ -5,13 +5,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component {
+    use WithFileUploads;
     public string $name = '';
     public string $email = '';
     public ?string $avatar = null;
     public ?string $phone_number = null;
     public ?string $address = null;
+    public ?string $roles;
+    public $photo;
     /**
      * Mount the component.
      */
@@ -20,6 +24,7 @@ new class extends Component {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
         $this->avatar = Auth::user()->avatar;
+        $this->roles = Auth::user()->roles;
         if ($this->avatar) {
             $this->avatar = Auth::user()->avatar;
         } else {
@@ -42,9 +47,16 @@ new class extends Component {
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
             'phone_number' => ['nullable', 'regex:/^(0|\+84)[1-9][0-9]{8}$/'],
             'address' => ['nullable'],
+            'photo' => ['nullable', 'image', 'max:1024'],
         ]);
 
         $user->fill($validated);
+
+        if ($this->photo) {
+            $path = $this->photo->store('avatars', 'public');
+            $user->avatar = $path;
+        }
+
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
@@ -88,10 +100,29 @@ new class extends Component {
         <div class="grid grid-cols-3 gap-5">
             <div class="flex flex-col items-center border p-4 rounded-lg shadow">
                 <x-mary-file wire:model="photo" accept="image/png, image/jpeg">
-                    <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-40 w-32 rounded-lg" />
+                    @if ($photo)
+                        <!-- Hiển thị ảnh tạm thời khi người dùng upload file -->
+                        <img src="{{ $photo->temporaryUrl() }}" class="h-40 w-32 rounded-lg" />
+                    @elseif ($avatar)
+                        <!-- Hiển thị ảnh đại diện từ cơ sở dữ liệu -->
+                        <img src="{{ asset('storage/' . $avatar) }}" class="h-40 w-32 rounded-lg" />
+                    @else
+                        <!-- Hiển thị ảnh mặc định -->
+                        <img src="https://static.vecteezy.com/system/resources/previews/024/983/914/original/simple-user-default-icon-free-png.png"
+                            class="h-40 w-32 rounded-lg" />
+                    @endif
                 </x-mary-file>
                 <!-- <img class="w-36 h-48 mb-3 rounded-full shadow-lg" src="{{$avatar}}" alt="Bonnie image" /> -->
                 <div class="text-xl pt-5">{{$name}}</div>
+                <div class="text-lg">
+
+                    @if ($roles)
+                        <p class="text-orange-500">Quản lý</p>
+                    @else
+                        <p class="text-orange-500">Người dùng</p>
+                    @endif
+
+                </div>
             </div>
             <div class="col-span-2 border p-4 rounded-lg shadow">
                 <div>
@@ -103,7 +134,7 @@ new class extends Component {
 
                 <div>
                     <x-input-label for="email" :value="__('Địa chỉ Email')" />
-                    <x-text-input wire:model.live="email" id="email" name="email" type="email" class="mt-1 block w-full"
+                    <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full"
                         autocomplete="username" />
                     <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
@@ -127,13 +158,13 @@ new class extends Component {
                     @endif
 
                     <x-input-label for="phone_number" :value="__('Số điện thoại')" />
-                    <x-text-input wire:model.live="phone_number" id="phone_number" name="phone_number"
+                    <x-text-input wire:model="phone_number" id="phone_number" name="phone_number"
                         class="mt-1 block w-full" />
                     <x-input-error class="mt-2" :messages="$errors->get('phone_number')" />
 
                     <x-input-label for="address" :value="__('Địa chỉ')" />
-                    <x-text-input wire:model.live="address" id="address" name="address" type="text"
-                        class="mt-1 block w-full" autocomplete="address" />
+                    <x-text-input wire:model="address" id="address" name="address" type="text" class="mt-1 block w-full"
+                        autocomplete="address" />
                     <x-input-error class="mt-2" :messages="$errors->get('address')" />
 
                 </div>

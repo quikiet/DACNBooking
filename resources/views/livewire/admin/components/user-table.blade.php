@@ -1,4 +1,4 @@
-<div class="p-6">
+<div class="p-6 ">
     <div class="flex py-5 justify-between">
 
         <h1 class="text-2xl font-bold mb-4 text-gray-200">Danh Sách Người Dùng</h1>
@@ -27,7 +27,7 @@
                                         </div>
                                     @else
                                         <div class="mask mask-squircle h-12 w-12">
-                                            <img src="{{$user->avatar}}" />
+                                            <img src="{{ asset('storage/' . $user->avatar) }}" class="h-40 w-32 rounded-lg" />
                                         </div>
                                     @endif
                                 </div>
@@ -47,9 +47,9 @@
                                 </div>
                             </div>
                         </th>
-                        <td scope="row" class="px-6 py-4">{{ $user->email }}</td>
-                        <td scope="row" class="px-6 py-4">{{ $user->phone_number }}</td>
-                        <td scope="row" class="px-6 py-4">{{ $user->address }}</td>
+                        <td scope="row" class="px-6 py-4 text-white">{{ $user->email }}</td>
+                        <td scope="row" class="px-6 py-4 text-white">{{ $user->phone_number }}</td>
+                        <td scope="row" class="px-6 py-4 text-white">{{ $user->address }}</td>
                     </tr>
                 @endforeach
             </tbody>

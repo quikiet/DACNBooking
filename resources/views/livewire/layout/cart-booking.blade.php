@@ -1,5 +1,5 @@
 <div>
-    <div class="py-4">
+    <!-- <div class="py-4">
         <div class="md:flex justify-between md:min-w-full py-1">
             <p>
                 {{ \Carbon\Carbon::now()->addDays(1)->locale('vi')->translatedFormat('d F Y') }} –
@@ -10,7 +10,7 @@
             </p>
         </div>
         <p>1 phòng, 2 khách</p>
-    </div>
+    </div> -->
     <div wire:loading class="text-center py-2 text-gray-500">
         <div
             class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse ">
