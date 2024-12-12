@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('booking_id')->constrained('bookings', 'booking_id')->onDelete('cascade');
             $table->foreignId('room_type_id')->constrained('room_types', 'room_type_id')->onDelete('cascade');
             $table->integer('quantity')->default(1);
+            $table->foreignId('room_id')->nullable()->constrained('rooms', 'room_id')->onDelete('set null'); // Thêm cột room_id
             $table->double('price_per_room');
             $table->timestamps();
         });

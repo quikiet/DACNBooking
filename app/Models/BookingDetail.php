@@ -10,7 +10,8 @@ class BookingDetail extends Model
         'booking_id',
         'room_type_id',
         'quantity',
-        'price_per_room'
+        'price_per_room',
+        'room_id'
     ];
 
     public function booking()
@@ -22,4 +23,9 @@ class BookingDetail extends Model
     {
         return $this->belongsTo(TypeRoom::class, 'room_type_id', 'room_type_id');
     }
+
+
+
+
+
 }

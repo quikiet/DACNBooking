@@ -50,77 +50,21 @@ class RoomPage extends Component
         ]);
 
         // Lọc các loại phòng đã có phòng trống trong khoảng thời gian này
-        $this->typeRooms = TypeRoom::whereHas('rooms', function ($query) {
-            $query->whereDoesntHave('bookings', function ($query) {
-                $query->where(function ($q) {
-                    $q->whereBetween('check_in', [$this->check_in, $this->check_out])
-                        ->orWhereBetween('check_out', [$this->check_in, $this->check_out])
-                        ->orWhere(function ($q) {
-                            $q->where('check_in', '<=', $this->check_in)
-                                ->where('check_out', '>=', $this->check_out);
-                        });
+        $this->typeRooms = TypeRoom::with([
+            'rooms' => function ($query) {
+                $query->whereDoesntHave('bookings', function ($query) {
+                    $query->where(function ($q) {
+                        $q->whereBetween('check_in', [$this->check_in, $this->check_out]) // Kiểm tra phòng đã đặt
+                            ->orWhereBetween('check_out', [$this->check_in, $this->check_out])
+                            ->orWhere(function ($q) {
+                                $q->where('check_in', '<=', $this->check_in)
+                                    ->where('check_out', '>=', $this->check_out); // Khoảng thời gian chồng lấp
+                            });
+                    });
                 });
-            });
-        })->get();
+            }
+        ])->get();
     }
-
-    // public function addToCart($typeRoomId, $quantity, $pricePerRoom)
-    // {
-
-    //     $tr = TypeRoom::findOrFail($typeRoomId);
-    //     $cart = session()->get('bookingCart', []);
-    //     if (isset($cart[$typeRoomId])) {
-    //         $cart[$typeRoomId]['quantity'] += $quantity;
-    //     } else {
-    //         $cart[$typeRoomId] = [
-    //             'room_type_id' => $typeRoomId,
-    //             'quantity' => $quantity,
-    //             'price_per_room' => $pricePerRoom,
-    //             'adult' => $tr->adult,
-    //             'children' => $tr->children,
-    //             'room_type_name' => $tr->name,
-    //         ];
-    //     }
-
-
-    //     $this->quantities[$typeRoomId] = 1;
-
-    //     session()->put('bookingCart', $cart);
-    //     $this->dispatch('refreshCart');
-    //     // $this->bookingCart = $cart;
-    // }
-
-    // public function addToCart($roomTypeId, $quantity, $price)
-    // {
-    //     $typeRoom = TypeRoom::findOrFail($roomTypeId);
-
-    //     $availableRooms = session()->get("available_rooms.$roomTypeId", $typeRoom->available_rooms_count);
-
-    //     if ($availableRooms >= $quantity) {
-
-    //         $cart = session()->get('bookingCart', []);
-    //         if (isset($cart[$roomTypeId])) {
-    //             $cart[$roomTypeId]['quantity'] += $quantity;
-    //         } else {
-    //             $cart[$roomTypeId] = [
-    //                 'room_type_id' => $roomTypeId,
-    //                 'quantity' => $quantity,
-    //                 'price_per_room' => $price,
-    //                 'adult' => $typeRoom->adult,
-    //                 'children' => $typeRoom->children,
-    //                 'room_type_name' => $typeRoom->name,
-    //             ];
-    //         }
-
-    //         // Giảm tạm thời số lượng phòng có sẵn trong phiên
-    //         session()->put("available_rooms.$roomTypeId", $availableRooms - $quantity);
-
-    //         session()->put('bookingCart', $cart);
-    //         $this->dispatch('refreshCart');
-    //     } else {
-    //         $this->error("Phòng không còn trống!", "Đã hết số lượng phòng này. Xin vui lòng chọn kiểu phòng khác.", "toast-top toast-end");
-    //     }
-    // }
 
     public function addToCart($roomTypeId, $quantity, $price)
     {

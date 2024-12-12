@@ -1,7 +1,4 @@
 <div>
-
-
-
     <div class="container relative px-6 overflow-x-auto sm:rounded-lg" x-data="{open : false}"
         @close-modal.window="open = false; resetField">
         <div class="flex py-5 justify-between">

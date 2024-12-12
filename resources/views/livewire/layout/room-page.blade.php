@@ -91,7 +91,6 @@
 
 
                     <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
-
                         <!-- Product grid -->
                         <div class="lg:col-span-4">
                             @foreach ($typeRooms as $typeRoom)
