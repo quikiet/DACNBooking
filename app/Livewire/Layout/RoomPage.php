@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Layout;
 
+use App\Models\Booking;
+use App\Models\BookingDetail;
 use App\Models\Room;
 use App\Models\TypeRoom;
 use Livewire\Component;
@@ -19,14 +21,6 @@ class RoomPage extends Component
 
     public $quantities = [];
 
-    // protected $listeners = ['refreshPage' => 'refresh'];
-
-
-    // public function refresh()
-    // {
-    //     $this->bookingCart = session()->get('bookingCart', []);
-    // }
-
     public function mount()
     {
         $this->typeRooms = TypeRoom::all();
@@ -40,6 +34,7 @@ class RoomPage extends Component
             $this->quantities[$typeRoom->room_type_id] = 1;
         }
 
+
     }
 
     public function searchRooms()
@@ -49,22 +44,53 @@ class RoomPage extends Component
             'check_out' => 'required|date|after:check_in',
         ]);
 
-        // Lọc các loại phòng đã có phòng trống trong khoảng thời gian này
-        $this->typeRooms = TypeRoom::with([
-            'rooms' => function ($query) {
-                $query->whereDoesntHave('bookings', function ($query) {
-                    $query->where(function ($q) {
-                        $q->whereBetween('check_in', [$this->check_in, $this->check_out]) // Kiểm tra phòng đã đặt
+        if ($this->check_in && $this->check_out) {
+            // Lọc các loại phòng chưa bị đặt trong khoảng thời gian check_in và check_out
+            $roomTypes = TypeRoom::whereDoesntHave('rooms.bookings', function ($query) {
+                $query->where(function ($q) {
+                    // Kiểm tra bookings có check_in và check_out trong khoảng thời gian
+                    $q->whereBetween('check_in', [$this->check_in, $this->check_out])
+                        ->orWhereBetween('check_out', [$this->check_in, $this->check_out])
+                        ->orWhere(function ($q) {
+                            // Kiểm tra booking vượt qua khoảng thời gian
+                            $q->where('check_in', '<', $this->check_in)
+                                ->where('check_out', '>', $this->check_out);
+                        });
+                });
+            })
+                ->get();
+
+            // Tính toán số lượng phòng còn trống cho mỗi loại phòng
+            foreach ($roomTypes as $roomType) {
+                // Đếm số lượng phòng đã đặt trong khoảng thời gian
+                $bookedRooms = $roomType->rooms()->whereHas('bookings', function ($q) {
+                    $q->where(function ($q) {
+                        $q->whereBetween('check_in', [$this->check_in, $this->check_out])
                             ->orWhereBetween('check_out', [$this->check_in, $this->check_out])
                             ->orWhere(function ($q) {
-                                $q->where('check_in', '<=', $this->check_in)
-                                    ->where('check_out', '>=', $this->check_out); // Khoảng thời gian chồng lấp
+                                $q->where('check_in', '<', $this->check_in)
+                                    ->where('check_out', '>', $this->check_out);
                             });
                     });
-                });
+                })->count();
+
+                // Tính số lượng phòng còn trống cho loại phòng này
+                $roomType->available_rooms_count = $roomType->available_rooms_count - $bookedRooms;
+
+                // Đảm bảo không có số phòng âm
+                if ($roomType->available_rooms_count < 0) {
+                    $roomType->available_rooms_count = 0;
+                }
             }
-        ])->get();
+
+            return $roomTypes;
+        }
+
+        return [];
     }
+
+
+
 
     public function addToCart($roomTypeId, $quantity, $price)
     {
@@ -95,8 +121,6 @@ class RoomPage extends Component
                 ];
                 $this->dispatch('refreshCart');
             }
-            // Giảm tạm thời số lượng phòng có sẵn trong phiên
-            // session()->put("available_rooms.$roomTypeId", $availableRooms - $quantity);
 
             session()->put('bookingCart', $cart);
         } else {
@@ -107,11 +131,17 @@ class RoomPage extends Component
     public function render()
     {
         // session()->flush();
-        // Lọc loại phòng dựa trên số lượng khách
-        $this->typeRooms = TypeRoom::where('adult', '>=', $this->adult)
-            ->where('children', '>=', $this->children)
+        $this->typeRooms = TypeRoom::query()
+            ->when($this->adult, function ($query) {
+                return $query->where('adult', '>=', $this->adult);
+            })
+            ->when($this->children, function ($query) {
+                return $query->where('children', '>=', $this->children);
+            })
             ->get();
 
-        return view('livewire.layout.room-page', ['typeRooms' => $this->typeRooms]);
+
+        $rooms = $this->searchRooms();
+        return view('livewire.layout.room-page', ['typeRooms' => $this->typeRooms, 'rooms' => $rooms]);
     }
 }

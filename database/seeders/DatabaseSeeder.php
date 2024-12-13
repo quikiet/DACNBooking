@@ -28,10 +28,12 @@ class DatabaseSeeder extends Seeder
         $this->call(RoomSeeder::class);
         $this->call(room_images::class);
 
-        // TypeRoom::all()->each(function ($typeRoom) {
-        //     $typeRoom->quantity = $typeRoom->rooms()->count(); // Tổng số phòng từ bảng rooms
-        //     $typeRoom->available_rooms_count = $typeRoom->rooms()->where('status', 'available')->count(); // Tổng số phòng khả dụng
-        //     $typeRoom->save();
-        // });
+        $check_in = now()->toDateString();
+        $check_out = now()->addDay()->toDateString();
+
+        TypeRoom::all()->each(function ($typeRoom) use ($check_in, $check_out) {
+            $typeRoom->updateRoomCounts($check_in, $check_out);
+        });
+
     }
 }

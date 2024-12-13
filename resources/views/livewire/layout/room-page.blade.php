@@ -17,7 +17,7 @@
                             <div class="md:grid-cols-12 items-center gap-5 grid grid-cols-2">
                                 <div class="col-span-4">
                                     <div class="relative">
-                                        <input type="date" wire:model.live= "check_in"
+                                        <input type="date" wire:model= "check_in"
                                             class="bg-gray-50 px-2.5 pb-2.5 pt-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             placeholder="Select date">
                                         <label for="floating_outlined"
@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-span-4">
                                     <div class="relative">
-                                        <input type="date" wire:model.live= "check_out"
+                                        <input type="date" wire:model= "check_out"
                                             class="bg-gray-50 px-2.5 pb-2.5 pt-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             placeholder="Select date">
                                         <label for="floating_outlined"
@@ -74,7 +74,7 @@
                                         <path
                                             d="M580-490q-21 0-35.5-14.5T530-540q0-21 14.5-35.5T580-590q21 0 35.5 14.5T630-540q0 21-14.5 35.5T580-490Zm-200 0q-21 0-35.5-14.5T330-540q0-21 14.5-35.5T380-590q21 0 35.5 14.5T430-540q0 21-14.5 35.5T380-490Zm100 210q-60 0-108.5-33T300-400h360q-23 54-71.5 87T480-280Zm0 160q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm0-80q116 0 198-82t82-198q0-116-82-198t-198-82h-12q-6 0-12 2-6 6-8 13t-2 15q0 21 14.5 35.5T496-680q9 0 16.5-3t15.5-3q12 0 20 9t8 21q0 23-21.5 29.5T496-620q-45 0-77.5-32.5T386-730v-6q0-3 1-8-83 30-135 101t-52 163q0 116 82 198t198 82Zm0-280Z" />
                                     </svg>
-                                    <button type="submit">Tìm</button>
+                                    <button type="submit " class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Tìm</button>
                                 </div>
                             </div>
                         </form>
@@ -91,8 +91,9 @@
 
 
                     <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
-                        <!-- Product grid -->
+                    <!-- Product grid -->
                         <div class="lg:col-span-4">
+                    <x-mary-progress class="progress-primary h-0.5" wire:loading indeterminate />    
                             @foreach ($typeRooms as $typeRoom)
                                                     <div
                                                         class="mb-5 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:min-w-full">
@@ -179,7 +180,7 @@
                                                                                 <div>
                                                                                     <p class="text-end p-3 text-green-500 font-bold text-xs">
                                                                                         Còn
-                                                                                        {{ session()->get("available_rooms.$typeRoom->room_type_id", $typeRoom->available_rooms_count) }}
+                                                                                        {{ $typeRoom->available_rooms_count }}
                                                                                         phòng
                                                                                     </p>
                                                                                 </div>

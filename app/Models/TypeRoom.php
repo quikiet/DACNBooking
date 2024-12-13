@@ -30,18 +30,17 @@ class TypeRoom extends Model
         return $this->hasMany(Room::class, 'room_type_id', 'room_type_id');
     }
 
-    public function updateRoomCounts()
-    {
-        $this->quantity = $this->rooms()->count();
-        $this->available_rooms_count = $this->rooms()->where('status', 'available')->count();
-        $this->save();
-    }
-
     public function room_images()
     {
         return $this->hasMany(RoomImage::class, 'room_type_id');
     }
 
+    public function updateRoomCounts()
+    {
+        // Tính số phòng có sẵn mà không cần check_in và check_out
+        $this->available_rooms_count = $this->rooms()->whereDoesntHave('booking_details')->count();
+        $this->save();
+    }
 
 
 }

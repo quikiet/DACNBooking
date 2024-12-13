@@ -47,7 +47,6 @@ class PaymentFinish extends Component
             foreach ($cart as $item) {
 
                 $availableRooms = Room::where('room_type_id', $item['room_type_id'])
-                    ->where('status', 'available')
                     ->take($item['quantity'])
                     ->get();
                 if ($availableRooms->count() >= $item['quantity']) {
@@ -59,20 +58,14 @@ class PaymentFinish extends Component
                             'price_per_room' => $item['price_per_room'],
                             'room_id' => $room->room_id,
                         ]);
-                        $room->update(['status' => 'booked']);
                     }
                 } else {
                     session()->forget('bookingCart');
                     return redirect('/trang-chu')->with('error', 'Không đủ phòng để đáp ứng yêu cầu của bạn.');
                 }
-
-                // $bookedToRoom = Room::where('room_type_id', $item['room_type_id'])
-                //     ->where('status', 'available')
-                //     ->take($item['quantity'])->get();
-                // foreach ($bookedToRoom as $room) {
-                //     $room->update(['status' => 'booked']);
-                // }
             }
+
+
             session()->forget('bookingCart');
             return redirect('/trang-chu');
         } else {
