@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test Admin',
             'email' => 'example@gmail.com',
             'password' => '123456',
-            'roles' => true
+            'roles' => true,
         ]);
 
         $this->call(TypeRoomSeeder::class);
@@ -34,6 +34,8 @@ class DatabaseSeeder extends Seeder
         TypeRoom::all()->each(function ($typeRoom) use ($check_in, $check_out) {
             $typeRoom->updateRoomCounts($check_in, $check_out);
         });
-
+        $this->call(UserSeeder::class);
+        $this->call(AboutPageSeeder::class);
+        $this->call(ContactPageSeeder::class);
     }
 }

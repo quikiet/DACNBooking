@@ -48,6 +48,7 @@ class MakePayment extends Component
     {
         $this->check_in = now()->addDay(1)->toDateString();
         $this->check_out = now()->addDay(2)->toDateString();
+
         // $this->resetInfor();
         $cart = session()->get('bookingCart', []);
         $this->totalPay = 0;

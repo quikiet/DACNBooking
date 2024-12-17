@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\BookingDetail;
 use App\Models\Room;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
@@ -22,8 +23,11 @@ class PaymentFinish extends Component
         // dd($cart);
         $totalGuests = 0;
         $totalPay = 0;
+        $checkInDate = Carbon::parse($bookingInfo['check_in']);
+        $checkOutDate = Carbon::parse($bookingInfo['check_out']);
+        $days = $checkOutDate->diffInDays($checkInDate);
         foreach ($cart as $item) {
-            $totalPay += $item['price_per_room'] * $item['quantity'];
+            $totalPay += $item['price_per_room'] * $item['quantity'] * $days * -1;
             $totalGuests += $item['quantity'] * ($item['adult'] + $item['children']);
         }
 
@@ -58,6 +62,10 @@ class PaymentFinish extends Component
                             'price_per_room' => $item['price_per_room'],
                             'room_id' => $room->room_id,
                         ]);
+                        // Cập nhật trạng thái phòng thành 'booked'
+                        Room::where('room_id', $room->room_id)->first()->update([
+                            'status' => 'booked',
+                        ]);
                     }
                 } else {
                     session()->forget('bookingCart');
@@ -68,6 +76,7 @@ class PaymentFinish extends Component
 
             session()->forget('bookingCart');
             return redirect('/trang-chu');
+
         } else {
             // session()->flush();
             session()->forget('bookingCart');

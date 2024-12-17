@@ -20,11 +20,12 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     @livewireStyles
 
 </head>
 
-<body class=" font-sans antialiased">
+<body class=" font-sans antialiased" theme="mytheme">
     <div class="sticky top-0 z-50">
         <livewire:layout.navigation />
     </div>

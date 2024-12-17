@@ -1,29 +1,29 @@
 <div>
-    <div class="p-12 bg-black ">
-        <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 footer text-orange-400">
+    <div class="p-6 bg-black ">
+        <footer class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 footer text-orange-400 pb-3">
             <nav>
-                <h6 class="footer-title">THE RESORT</h6>
-                <a class="link link-hover">About Us</a>
-                <a class="link link-hover">Policies</a>
-                <a class="link link-hover">Contact Us</a>
+                <h6 class="footer-title">TRAN QUI KIET RESORT</h6>
+                <a class="link link-hover" href="{{route('about')}}">Về chúng tôi</a>
+                <a class="link link-hover" href="{{route('contact')}}">Liên hệ</a>
+                <a class="link link-hover">Chính sách</a>
             </nav>
             <nav>
-                <h6 class="footer-title">FIND OUT MORE</h6>
-                <a class="link link-hover">Peninsula Along Tuyen Lam Lake</a>
-                <a class="link link-hover">Good Location </a>
-                <a class="link link-hover">Large, Open space</a>
+                <h6 class="footer-title">TÌM HIỂU NHIỀU HƠN</h6>
+                <a class="link link-hover">Q.Bình Tân, Nguyễn Quý Yêm</a>
+                <a class="link link-hover">Những địa điểm tốt</a>
+                <a class="link link-hover">Rộng lớn, Không gian mở thoải mái</a>
             </nav>
             <nav>
-                <h6 class="footer-title">CONTACT INFO</h6>
-                <a class="link link-hover">Terracotta Hotel & Resort Da Lat</a>
-                <a class="link link-hover text-white">+84.263 388 3838</a>
-                <h6 class="footer-title">Reservations</h6>
-                <a class="link link-hover text-white">+84.263 388 3838</a>
-                <a class="link link-hover text-white">sales.dalat@terracottaresort.com</a>
+                <h6 class="footer-title">THÔNG TIN LIÊN HỆ</h6>
+                <a class="link link-hover">QKJT Hotel & Resort Da Lat</a>
+                <a class="link link-hover text-white">+84.934 092 819</a>
+                <h6 class="footer-title">LIÊN HỆ ĐẶT PHÒNG</h6>
+                <a class="link link-hover text-white">+84.199 99 1919</a>
+                <a class="link link-hover text-white">dh52101039@student.stu.edu.vn</a>
 
             </nav>
             <nav>
-                <h6 class="footer-title">FOLLOW US ON SOCIAL</h6>
+                <h6 class="footer-title">THEO DÕI TRÊN MẠNG XÃ HỘI</h6>
                 <div class="grid grid-flow-col gap-4">
                     <a>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -50,15 +50,15 @@
                         </svg>
                     </a>
                 </div>
-            </nav>  
+            </nav>
         </footer>
-        <div class="pt-6 border-t bg-black border-orange-400">
+        <div class="pt-3 border-t bg-black border-orange-400">
             <div class="flex justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 items-center">
                 <div>
                     <x-application-logo class="block h-9 w-auto fill-current text-orange-400" />
                 </div>
                 <div class="cpyright text-orange-400">
-                    © All Rights Reserved. Terracotta Hotel & Resort Dalat - Website by Seven Media
+                    © Tất cả được làm bởi Quí Kiệt. QKJT Hotel & Resort Dalat - Website bởi Trần Quí Kiệt
                 </div>
             </div>
         </div>

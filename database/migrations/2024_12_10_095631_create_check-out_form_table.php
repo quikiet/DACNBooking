@@ -12,12 +12,9 @@ return new class extends Migration {
     {
         Schema::create('check-out_form', function (Blueprint $table) {
             $table->id('checkout_id');
-            $table->foreignId('checkin_id')->constrained('check-in_form', 'checkin_id');
+            $table->foreignId('checkin_id')->constrained('check-in_form', 'checkin_id')->onDelete('cascade');
             $table->date('checkout_date');
             $table->double('total_pay');
-            $table->double('additionCharge');
-            $table->enum('payment_status', ['pending, completed']);
-            $table->text('notes');
             $table->timestamps();
         });
     }

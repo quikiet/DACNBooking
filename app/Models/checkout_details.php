@@ -14,6 +14,8 @@ class checkout_details extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'checkout_id',
+        'room_id',
         'cleaning_fee',
     ];
 

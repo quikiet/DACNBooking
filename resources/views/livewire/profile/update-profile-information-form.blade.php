@@ -104,8 +104,9 @@ new class extends Component {
                         <!-- Hiển thị ảnh tạm thời khi người dùng upload file -->
                         <img src="{{ $photo->temporaryUrl() }}" class="h-40 w-32 rounded-lg" />
                     @elseif ($avatar)
-                        <!-- Hiển thị ảnh đại diện từ cơ sở dữ liệu -->
                         <img src="{{ asset('storage/' . $avatar) }}" class="h-40 w-32 rounded-lg" />
+                    @elseif (!empty($user->google_id))
+                        <img src="{{$avatar}}" class="h-40 w-32 rounded-lg" />
                     @else
                         <!-- Hiển thị ảnh mặc định -->
                         <img src="https://static.vecteezy.com/system/resources/previews/024/983/914/original/simple-user-default-icon-free-png.png"

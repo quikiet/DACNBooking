@@ -21,6 +21,7 @@ class TypeRoomTable extends Component
     public RoomTypeForm $roomTypeForm;
 
     public $typeRoomId;
+    public $search;
     public $name;
     public $price;
     public $adult;
@@ -47,7 +48,7 @@ class TypeRoomTable extends Component
         }
 
         $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
-
+        $this->resetField();
         $this->dispatch('close-modal');
     }
 
@@ -129,20 +130,25 @@ class TypeRoomTable extends Component
         if ($isUpdated) {
             $this->success("Cập nhật thành công!", "Bạn đã cập nhật kiểu phòng thành công", "toast-top toast-center");
         }
-
+        $this->resetField();
         $this->dispatch('close-modal');
     }
 
     public function resetField()
     {
-        $this->reset();
         $this->typeRoomId = null;
         $this->images = [];
+        $this->roomTypeForm->name = '';
+        $this->roomTypeForm->price = '';
+        $this->roomTypeForm->adult = '';
+        $this->roomTypeForm->children = '';
+        $this->roomTypeForm->description = '';
     }
 
     public function render()
     {
-        $type_Rooms = TypeRoom::paginate(5);
+        $type_Rooms = TypeRoom::where('name', 'like', "%{$this->search}%")
+            ->orWhere('price', 'like', "%{$this->search}%")->paginate(5);
         return view('livewire.admin.components.type-room-table', ['type_Rooms' => $type_Rooms]);
     }
 

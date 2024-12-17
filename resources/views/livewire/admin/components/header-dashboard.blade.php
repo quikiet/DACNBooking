@@ -1,28 +1,21 @@
 <div class=" w-full min-h-20 mx-auto px-4 sm:px-6 lg:px-8 text-white bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
   <div class="flex justify-between items-center text-center h-full">
     <div class="hidden sm:block flex-1">
-      <form class="max-w-96">
-        <label for="default-search"
-          class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-        <div class="relative">
-          <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-              fill="none" viewBox="0 0 20 20">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-            </svg>
-          </div>
-          <input type="search" id="default-search"
-            class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-300 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search..." required />
-        </div>
-      </form>
+
     </div>
     <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
       <a class="flex items-center gap-4" href="#" @click.prevent="dropdownOpen = ! dropdownOpen">
 
         <span class="h-10 w-10 rounded-full">
-          <img src="https://cdn-icons-png.flaticon.com/512/219/219983.png" alt="User">
+          @if (!empty(Auth::User()->google_id))
+        <div class="mask mask-squircle h-10 w-10 shadow-lg rounded-lg overflow-hidden">
+        <img src="{{User()->avatar}}" class="w-full h-full object-cover rounded-lg" />
+        </div>
+      @else
+      <div class="mask mask-squircle h-10 w-10 shadow-lg rounded-lg overflow-hidden">
+      <img src="{{ asset('storage/' . Auth::User()->avatar) }}" class="w-full h-full object-cover rounded-lg" />
+      </div>
+    @endif
         </span>
 
         <svg wire:click="dropdownOpen=true" class="hidden fill-current sm:block" width="12" height="8"
@@ -41,7 +34,7 @@
       <div x-show="dropdownOpen" class=" absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm shadow-default z-50"
         style="display: none;">
         <ul class="flex flex-col gap-5 px-6 py-7.5 dark:bg-gray-800">
-          <li>
+          <!-- <li>
             <a href=""
               class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
               <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
@@ -67,9 +60,9 @@
               </svg>
               My Contacts
             </a>
-          </li>
+          </li> -->
           <li>
-            <a href="settings.html"
+            <a href="{{route('admin.user-dash')}}"
               class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
               <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -80,11 +73,11 @@
                   d="M11 6.32498C8.42189 6.32498 6.32501 8.42186 6.32501 11C6.32501 13.5781 8.42189 15.675 11 15.675C13.5781 15.675 15.675 13.5781 15.675 11C15.675 8.42186 13.5781 6.32498 11 6.32498ZM11 14.1281C9.28126 14.1281 7.87189 12.7187 7.87189 11C7.87189 9.28123 9.28126 7.87186 11 7.87186C12.7188 7.87186 14.1281 9.28123 14.1281 11C14.1281 12.7187 12.7188 14.1281 11 14.1281Z"
                   fill=""></path>
               </svg>
-              Account Settings
+              Quản lý tài khoản
             </a>
           </li>
         </ul>
-        <button
+        <a href="{{route('home')}}"
           class="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base bg-gray-800">
           <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -95,8 +88,8 @@
               d="M6.05001 11.7563H12.2031C12.6156 11.7563 12.9594 11.4125 12.9594 11C12.9594 10.5875 12.6156 10.2438 12.2031 10.2438H6.08439L8.21564 8.07813C8.52501 7.76875 8.52501 7.2875 8.21564 6.97812C7.90626 6.66875 7.42501 6.66875 7.11564 6.97812L3.67814 10.4844C3.36876 10.7938 3.36876 11.275 3.67814 11.5844L7.11564 15.0906C7.25314 15.2281 7.45939 15.3312 7.66564 15.3312C7.87189 15.3312 8.04376 15.2625 8.21564 15.125C8.52501 14.8156 8.52501 14.3344 8.21564 14.025L6.05001 11.7563Z"
               fill=""></path>
           </svg>
-          Log Out
-        </button>
+          Trang chủ
+        </a>
       </div>
       <!-- Dropdown End -->
     </div>

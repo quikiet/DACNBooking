@@ -14,12 +14,20 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', 'sans-serif'],
             },
         },
     },
 	daisyui: {
-		themes: ["light"],
+		themes: [
+            {
+                mytheme: {
+                    primary: "#EA9E67", 
+                    secondary: "#FDF9F6"
+                },
+            },
+            "garden"
+        ],
 	  },
 
     plugins: [

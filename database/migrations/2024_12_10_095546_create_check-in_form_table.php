@@ -13,11 +13,9 @@ return new class extends Migration {
         Schema::create('check-in_form', function (Blueprint $table) {
             $table->id('checkin_id');
             $table->foreignId('user_id')->constrained('users', 'id');
-            $table->date('checkin_date');
-            $table->date('expectedCheckOutDate');
             $table->double('total_pay');
-            $table->enum('status', ['pending, paid, booked, completed']);
-            $table->text('notes');
+            $table->enum('status', ['pending', 'paid', 'booked', 'completed'])->default('pending');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

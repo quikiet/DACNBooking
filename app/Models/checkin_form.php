@@ -17,8 +17,6 @@ class checkin_form extends Model
 
     protected $fillable = [
         'user_id',
-        'checkin_date',
-        'expectedCheckOutDate',
         'total_pay',
         'status',
         'notes',

@@ -1,7 +1,7 @@
 <div>
     <div class="container relative px-6 overflow-x-auto sm:rounded-lg" x-data="{open : false}"
         @close-modal.window="open = false; resetField">
-        <div class="flex py-5 justify-between">
+        <div class="flex py-5 pb-2 justify-between">
 
             <h1 class="text-2xl font-bold mb-4 text-gray-200">Danh Sách Phòng</h1>
             <!-- Modal toggle -->
@@ -123,7 +123,23 @@
         <x-mary-toast />
 
         <!-- table hiển thị -->
-
+        <x-mary-progress wire:loading target="search" class="progress-primary h-0.5" indeterminate />
+        <form class="max-w-96 my-4">
+            <label for="default-search"
+                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="search" id="default-search" wire:model.live="search"
+                    class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                    placeholder="Tìm kiếm..." required />
+            </div>
+        </form>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

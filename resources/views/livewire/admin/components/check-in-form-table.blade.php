@@ -1,7 +1,7 @@
 <div>
     <div class="container relative px-6 overflow-x-auto sm:rounded-lg" x-data="{open : false}"
         @close-modal.window="open = false">
-        <div class="flex py-5 justify-between">
+        <div class="flex py-5 pb-2 justify-between">
 
             <h1 class="text-2xl font-bold mb-4 text-gray-200">Danh Sách Phiếu Thuê</h1>
             <!-- Modal toggle -->
@@ -24,25 +24,73 @@
         <x-mary-toast />
 
         <!-- table hiển thị -->
-
+        <x-mary-progress wire:loading target="search" class="progress-primary h-0.5" indeterminate />
+        <form class="max-w-96 my-4 mt-0">
+            <h1 class="mb-2 text-gray-200">Ngày tạo đơn</h1>
+            <label for="default-search"
+                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="search" id="default-search" wire:model.live="search"
+                    class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                    placeholder="Tìm kiếm..." required />
+            </div>
+        </form>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3"> Tên Phòng </th>
-                        <th scope="col" class="px-6 py-3">Số phòng</th>
-                        <th scope="col" class="px-6 py-3">Trạng thái</th>
-                        <th scope="col" class="px-6 py-3">Loại phòng</th>
-                        <th scope="col" class="px-6 py-3">Số lượng người</th>
+                        <th scope="col" class="px-6 py-3">Tên người dùng</th>
+                        <th scope="col" class="px-6 py-3">Ngày tạo đơn</th>
+                        <th scope="col" class="px-6 py-3">Tổng tiền tính tạm</th>
                         <th scope="col" class="px-6 py-3"> Action </th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($checkins as $checkin)
+                        <tr
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    dark:hover:bg-gray-600">
+                            <!-- Tên người dùng -->
+                            <td class="px-6 py-4">
+                                {{ $checkin->users->name ?? 'N/A' }}
+                            </td>
 
+                            <!-- Ngày tạo đơn -->
+                            <td class="px-6 py-4">
+                                {{ date_format($checkin->created_at, 'Y-m-d') ?? 'N/A' }}
+                            </td>
+
+                            <!-- Tiền tính tạm -->
+                            <td class="px-6 py-4">
+                                {{ number_format($checkin->total_pay, 0, ',', '.') }} VND
+                            </td>
+
+                            <!-- Action -->
+                            <td class="px-6 py-4">
+                                <a href="{{route('checkin.show', $checkin->checkin_id)}}"
+                                    class="link no-underline text-blue-400 hover:text-blue-500 transition"><x-mary-icon
+                                        name="o-eye" /></a>
+                                <button type="button" wire:click="destroy({{ $checkin->checkin_id }})"
+                                    class="text-red-500 hover:text-red-700 transition"
+                                    onclick="return confirm('Bạn có chắc chắn muốn xóa?');">
+                                    <x-mary-icon name="o-archive-box-x-mark" />
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
-
+            <div class="my-3">
+                {{ $checkins->links() }}
+            </div>
         </div>
 
     </div>

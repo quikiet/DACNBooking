@@ -16,10 +16,14 @@ class checkin_details extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'checkin_id',
         'room_id',
+        'checkin_date',
+        'expectedCheckOutDate',
         'price_per_night',
         'number_of_night',
         'sub_total',
+        'exported',
     ];
 
     public function checkin_form()

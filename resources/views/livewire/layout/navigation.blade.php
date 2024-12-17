@@ -74,7 +74,7 @@ new class extends Component
                                 </x-dropdown-link>
 
                                 @if(auth()->user()->roles == 1)
-                                <x-dropdown-link :href="route('admin.dashboard')">
+                                <x-dropdown-link :href="route('admin.home-dash')">
                                     {{ __('Trang quản lý') }}
                                 </x-dropdown-link>
                                 @endif
@@ -106,10 +106,14 @@ new class extends Component
 
                     @else
 
-                    <div class="hidden sm:flex sm:items-center sm:ms-6">
-                        <a href="{{ route('login') }}">Login</a>
+                   <div class="flex items-center gap-4">
+                   <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <a href="{{ route('login') }}">Đăng nhập</a>
                     </div>
-
+                    <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <a href="{{ route('register') }}">Đăng ký</a>
+                    </div>
+                   </div>
                 </div>
                 @endauth
             </div>

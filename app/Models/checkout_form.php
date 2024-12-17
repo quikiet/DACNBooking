@@ -14,12 +14,9 @@ class checkout_form extends Model
     protected $primaryKey = 'checkout_id';
 
     protected $fillable = [
-
+        'checkin_id',
         'checkout_date',
         'total_pay',
-        'additionCharge',
-        'payment_status',
-        'notes',
     ];
 
     public function checkin_form()

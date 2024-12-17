@@ -30,6 +30,8 @@ class RoomTable extends Component
     public $room_number;
     public $status;
 
+    public $search;
+
     public function add()
     {
         $this->roomForm->validate();
@@ -59,7 +61,7 @@ class RoomTable extends Component
             // $this->dispatch('close-modal');
 
             $this->dispatch('show-toast');
-            $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
+            $this->success("Xoá phòng", "Phòng mới đã được xoá thành công", "toast-top toast-center");
 
         }
 
@@ -100,7 +102,7 @@ class RoomTable extends Component
 
             if ($isUpdated) {
                 $this->resetField();
-                $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
+                $this->success("Cập nhật phòng mới", "Phòng mới đã được cập nhật thành công", "toast-top toast-center");
             }
         }
         $this->dispatch('close-modal');
@@ -124,7 +126,9 @@ class RoomTable extends Component
         if (is_null($this->roomForm->status)) {
             $this->roomForm->status = 'available';
         }
-        $rooms = Room::with('typeRoom')->paginate(5);
+        $rooms = Room::with('typeRoom')->Where('room_number', 'like', "%{$this->search}%")
+            ->orWhere('status', 'like', "%{$this->search}%")
+            ->paginate(5);
         $typeRooms = TypeRoom::all();
         return view('livewire.admin.components.room-table', [
             'rooms' => $rooms,

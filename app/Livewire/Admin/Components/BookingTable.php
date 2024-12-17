@@ -11,7 +11,7 @@ class BookingTable extends Component
 {
     use WithPagination;
     use Toast;
-
+    public $search;
     public function updateStatus($bookingId, $status)
     {
         $booking = Booking::find($bookingId);
@@ -26,7 +26,7 @@ class BookingTable extends Component
     }
     public function render()
     {
-        $bookings = Booking::paginate(5);
+        $bookings = Booking::where('bill_code', 'like', "%{$this->search}%")->paginate(5);
         return view('livewire.admin.components.booking-table', [
             'bookings' => $bookings,
         ]);

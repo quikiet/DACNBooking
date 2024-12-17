@@ -27,8 +27,8 @@
                     <div class="hero-content text-neutral-content text-center">
                         <div class="max-w-md">
                             <header class="grid grid-cols-2 items-center gap-2 pb-10 lg:grid-cols-3">
-                                <div class="flex lg:justify-center lg:col-start-2">
-                                    <x-application-logo></x-application-logo>
+                                <div class="flex lg:justify-center lg:col-start-2 text-3xl font-semibold text-white">
+                                    Trần Quí Kiệt
                                 </div>
                             </header>
                             <h1 class="mb-5 text-5xl font-semibold">Chào mừng bạn đã đến với <br> Khách sạn của chúng

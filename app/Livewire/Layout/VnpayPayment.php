@@ -5,6 +5,7 @@ namespace App\Livewire\Layout;
 use App\Models\Booking;
 use App\Models\BookingDetail;
 use Auth;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class VnpayPayment extends Component
@@ -15,15 +16,20 @@ class VnpayPayment extends Component
         $vnp_Returnurl = route('finish');
         $vnp_TmnCode = "HOOKW2BU";//Mã website tại VNPAY 
         $vnp_HashSecret = "ADV9ILTW310TR40REROQSGPCJLCZIY7H"; //Chuỗi bí mật
+        // $vnp_TmnCode = "YN0DQBNP";//Mã website tại VNPAY 
+        // $vnp_HashSecret = "FX7J6EH7E7MQEZMUO9QUB6XTQX8LBCBY"; //Chuỗi bí mật
 
         $cart = session()->get('bookingCart', []);
+        $cartInfo = session()->get('bookingInfo', []);
         // dd($bookingCart);
         // dd($cart);
         $totalPay = 0;
-
+        $checkInDate = Carbon::parse($cartInfo['check_in']);
+        $checkOutDate = Carbon::parse($cartInfo['check_out']);
+        $days = $checkOutDate->diffInDays($checkInDate);
         foreach ($cart as $item) {
             if (isset($item['price_per_room']) && isset($item['quantity'])) {
-                $totalPay += $item['price_per_room'] * $item['quantity'];
+                $totalPay += $item['price_per_room'] * $item['quantity'] * $days * -1;
             }
 
         }
