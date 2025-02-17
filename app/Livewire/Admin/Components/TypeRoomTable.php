@@ -3,32 +3,52 @@
 namespace App\Livewire\Admin\Components;
 
 use App\Livewire\Forms\RoomTypeForm;
+use App\Models\RoomImage;
 use App\Models\TypeRoom;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Livewire\WithPagination;
+use Mary\Traits\Toast;
+use Storage;
 
 class TypeRoomTable extends Component
 {
-    public $type_Rooms; // Khai báo thuộc tính để lưu trữ dữ liệu
+
+    use WithFileUploads;
+    use Toast;
+    use WithPagination;
     public RoomTypeForm $roomTypeForm;
 
     public $typeRoomId;
+    public $search;
     public $name;
     public $price;
     public $adult;
     public $children;
     public $description;
-    public function mount()
-    {
-        // Lấy tất cả kiểu phòng từ model
-        $this->type_Rooms = TypeRoom::all();
-    }
+
+    public $existingImages = [];
+    #[Validate(['images.*' => 'image|max:1024'])]
+    public $images = [];
 
     public function add()
     {
         $this->validate();
-        TypeRoom::create($this->roomTypeForm->pull());
-        $this->type_Rooms = TypeRoom::all();
-        session()->flash('message', 'Thêm loại phòng thành công!');
+        $Newtype_Rooms = TypeRoom::create($this->roomTypeForm->pull());
+
+        if (!empty($this->images)) {
+            foreach ($this->images as $image) {
+                $imagePath = $image->store('room_images', 'public');
+                RoomImage::create([
+                    'room_type_id' => $Newtype_Rooms->room_type_id,
+                    'image_url' => $imagePath,
+                ]);
+            }
+        }
+
+        $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
+        $this->resetField();
         $this->dispatch('close-modal');
     }
 
@@ -40,42 +60,96 @@ class TypeRoomTable extends Component
     public function delete()
     {
         if ($this->typeRoomId) {
-            TypeRoom::find($this->typeRoomId)->delete();
+            $tr = TypeRoom::with('room_images')->findOrFail($this->typeRoomId);
+            foreach ($tr->room_images as $image) {
+                Storage::disk('public')->delete($image->image_url);
+                $image->delete();
+            }
+
+            $tr->delete();
             $this->typeRoomId = null;
-            $this->mount();
-            session()->flash('message', 'Xoá loại phòng thành công!.');
+
+            $this->success("Xoá phòng thành công!", "Bạn đã xoá phòng thành công", "toast-top toast-center");
+
         }
     }
 
     public function edit($id)
     {
-        $TypeRoom = TypeRoom::find($id);
-        $this->typeRoomId = $TypeRoom->room_type_id;
+        $TypeRoom = TypeRoom::with('room_images')->find($id);
         $this->roomTypeForm->name = $TypeRoom->name;
         $this->roomTypeForm->price = $TypeRoom->price;
         $this->roomTypeForm->adult = $TypeRoom->adult;
         $this->roomTypeForm->children = $TypeRoom->children;
         $this->roomTypeForm->description = $TypeRoom->description;
+
+        //The pluck method get all of the values for a same key:
+        $this->existingImages = $TypeRoom->room_images->pluck('image_url')->toArray();
+
+        $this->typeRoomId = $id;
     }
 
     public function update()
     {
-        $this->validate();
-        TypeRoom::where('room_type_id', $this->typeRoomId)->update([
-            'name' => $this->roomTypeForm->name,
-            'price' => $this->roomTypeForm->price,
-            'adult' => $this->roomTypeForm->adult,
-            'children' => $this->roomTypeForm->children,
-            'description' => $this->roomTypeForm->description,
-        ]);
-        session()->flash('message', "Cập nhật thành công");
+        $isUpdated = false;
+        // $typeRoom = TypeRoom::where('room_type_id', $this->typeRoomId);
+        $typeRoom = TypeRoom::with('room_images')->findOrFail($this->typeRoomId);
+        if ($typeRoom) {
+            if (
+                $typeRoom->name !== $this->roomTypeForm->name
+                || $typeRoom->price !== $this->roomTypeForm->price
+                || $typeRoom->adult !== $this->roomTypeForm->adult
+                || $typeRoom->children !== $this->roomTypeForm->children
+                || $typeRoom->description !== $this->roomTypeForm->description
+            ) {
+                $typeRoom->update([
+                    'name' => $this->roomTypeForm->name,
+                    'price' => $this->roomTypeForm->price,
+                    'adult' => $this->roomTypeForm->adult,
+                    'children' => $this->roomTypeForm->children,
+                    'description' => $this->roomTypeForm->description,
+                ]);
+                if ($this->images) {
+
+                    foreach ($typeRoom->room_images as $image) {
+                        Storage::disk('public')->delete($image->image_url);
+                        $image->delete();
+                    }
+
+                    foreach ($this->images as $image) {
+                        $imagePath = $image->store('room_images', 'public');
+                        RoomImage::create([
+                            'room_type_id' => $this->typeRoomId,
+                            'image_url' => $imagePath,
+                        ]);
+                    }
+                }
+                $isUpdated = true;
+            }
+        }
+        if ($isUpdated) {
+            $this->success("Cập nhật thành công!", "Bạn đã cập nhật kiểu phòng thành công", "toast-top toast-center");
+        }
+        $this->resetField();
         $this->dispatch('close-modal');
-        $this->mount();
+    }
+
+    public function resetField()
+    {
+        $this->typeRoomId = null;
+        $this->images = [];
+        $this->roomTypeForm->name = '';
+        $this->roomTypeForm->price = '';
+        $this->roomTypeForm->adult = '';
+        $this->roomTypeForm->children = '';
+        $this->roomTypeForm->description = '';
     }
 
     public function render()
     {
-        return view('livewire.admin.components.type-room-table', ['type_Rooms' => $this->type_Rooms]);
+        $type_Rooms = TypeRoom::where('name', 'like', "%{$this->search}%")
+            ->orWhere('price', 'like', "%{$this->search}%")->paginate(5);
+        return view('livewire.admin.components.type-room-table', ['type_Rooms' => $type_Rooms]);
     }
 
 }

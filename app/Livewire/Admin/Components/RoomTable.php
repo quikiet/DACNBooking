@@ -10,17 +10,20 @@ use App\Models\TypeRoom;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\WithoutUrlPagination;
+
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 use Storage;
 
 class RoomTable extends Component
 {
     use WithFileUploads;
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
     public RoomForm $roomForm;
     public RoomTypeForm $roomTypeForm;
     // public $rooms;
+    use Toast;
+
     public $roomId;
 
     public $room_type_id;
@@ -29,32 +32,19 @@ class RoomTable extends Component
     public $room_number;
     public $status;
 
-    public $existingImages = [];
-    #[Validate(['images.*' => 'image|max:1024'])]
-    public $images = [];
+    public $search;
+
     public function add()
     {
         $this->roomForm->validate();
-        $room = Room::create([
+        Room::create([
             'name' => $this->roomForm->name,
             'room_number' => $this->roomForm->room_number,
             'status' => $this->roomForm->status,
             'room_type_id' => $this->roomForm->room_type_id,
         ]);
-
-
-        if (!empty($this->images)) {
-            foreach ($this->images as $image) {
-                $imagePath = $image->store('room_images', 'public');
-                RoomImage::create([
-                    'room_id' => $room->room_id,
-                    'image_url' => $imagePath,
-                ]);
-            }
-        }
         $this->resetField();
-        session()->flash('SuccessMes', 'Thêm phòng mới thành công!');
-        $this->dispatch('show-toast');
+        $this->success("Thêm phòng mới thành công!", "Phòng mới đã được thêm thành công", "toast-top toast-center");
         $this->dispatch('close-modal');
     }
 
@@ -66,20 +56,14 @@ class RoomTable extends Component
     public function delete()
     {
         if ($this->roomId) {
-            $room = Room::with('room_images')->findOrFail($this->roomId);
-
-            foreach ($room->room_images as $image) {
-                Storage::disk('public')->delete($image->image_url);
-            }
-
-            RoomImage::where('room_id', $this->roomId)->delete();
+            $room = Room::findOrFail($this->roomId);
 
             $room->delete();
 
             // $this->dispatch('close-modal');
 
             $this->dispatch('show-toast');
-            session()->flash('SuccessMes', 'Xoá phòng thành công!');
+            $this->success("Xoá phòng", "Phòng mới đã được xoá thành công", "toast-top toast-center");
 
         }
 
@@ -87,47 +71,42 @@ class RoomTable extends Component
 
     public function edit($id)
     {
-        $Room = Room::with('room_images')->findOrFail($id);
+        $Room = Room::findOrFail($id);
         $this->roomForm->name = $Room->name;
         $this->roomForm->room_number = $Room->room_number;
         $this->roomForm->status = $Room->status;
         $this->roomForm->room_type_id = $Room->room_type_id;
-
-        //The pluck method get all of the values for a same key:
-        $this->existingImages = $Room->room_images->pluck('image_url')->toArray();
 
         $this->roomId = $id;
     }
 
     public function update()
     {
+
+        $isUpdated = false;
         // $this->validate();
-        $room = Room::with('room_images')->findOrFail($this->roomId);
-        $room->update([
-            'name' => $this->roomForm->name,
-            'room_number' => $this->roomForm->room_number,
-            'status' => $this->roomForm->status,
-            'room_type_id' => $this->roomForm->room_type_id,
-        ]);
-
-        if ($this->images) {
-
-            foreach ($room->room_images as $image) {
-                Storage::disk('public')->delete($image->image_url);
-                $image->delete();
+        $room = Room::findOrFail($this->roomId);
+        if ($room) {
+            if (
+                $room->name !== $this->roomForm->name
+                || $room->room_number !== $this->roomForm->room_number
+                || $room->status !== $this->roomForm->status
+                || $room->room_type_id !== $this->roomForm->room_type_id
+            ) {
+                $room->update([
+                    'name' => $this->roomForm->name,
+                    'room_number' => $this->roomForm->room_number,
+                    'status' => $this->roomForm->status,
+                    'room_type_id' => $this->roomForm->room_type_id,
+                ]);
+                $isUpdated = true;
             }
 
-            foreach ($this->images as $image) {
-                $imagePath = $image->store('room_images', 'public');
-                RoomImage::create([
-                    'room_id' => $this->roomId,
-                    'image_url' => $imagePath,
-                ]);
+            if ($isUpdated) {
+                $this->resetField();
+                $this->success("Cập nhật phòng mới", "Phòng mới đã được cập nhật thành công", "toast-top toast-center");
             }
         }
-        $this->resetField();
-        session()->flash('SuccessMes', 'Cập nhật phòng thành công!');
-        $this->dispatch('show-toast');
         $this->dispatch('close-modal');
     }
 
@@ -139,8 +118,6 @@ class RoomTable extends Component
 
         // Reset các thuộc tính khác
         $this->roomId = null;
-        $this->existingImages = [];
-        $this->images = [];
         if (!$this->roomId) {
             $this->roomForm->status = 'available';
         }
@@ -151,8 +128,9 @@ class RoomTable extends Component
         if (is_null($this->roomForm->status)) {
             $this->roomForm->status = 'available';
         }
-        // $this->rooms = Room::with('typeRoom', 'room_images')->get();
-        $rooms = Room::with('typeRoom', 'room_images')->paginate(5);
+        $rooms = Room::with('typeRoom')->Where('room_number', 'like', "%{$this->search}%")
+            ->orWhere('status', 'like', "%{$this->search}%")
+            ->paginate(5);
         $typeRooms = TypeRoom::all();
         return view('livewire.admin.components.room-table', [
             'rooms' => $rooms,

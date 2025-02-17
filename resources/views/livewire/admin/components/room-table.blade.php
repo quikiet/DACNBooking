@@ -1,37 +1,7 @@
 <div>
-
-    @if (session('SuccessMes'))
-        <div x-data="{ open: true }">
-            <div class="fixed top-10 right-10 max-w-xs p-4 text-green-500 bg-green-100 rounded-lg shadow-lg dark:bg-green-600 dark:text-white"
-                x-show="open" x-transition @click.away="open = false">
-                <div class="flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 dark:text-green-200"
-                        fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                    </svg>
-                    <span>{{ session('SuccessMes') }}</span>
-                    <button @click="open = false" class="text-red-500 font-bold">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                            fill="#434343">
-                            <path
-                                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    @endif
-
-
-
-
-
-
-
     <div class="container relative px-6 overflow-x-auto sm:rounded-lg" x-data="{open : false}"
         @close-modal.window="open = false; resetField">
-        <div class="flex py-5 justify-between">
+        <div class="flex py-5 pb-2 justify-between">
 
             <h1 class="text-2xl font-bold mb-4 text-gray-200">Danh Sách Phòng</h1>
             <!-- Modal toggle -->
@@ -129,23 +99,7 @@
 
                                 </div>
 
-                                <!-- upload ảnh -->
-                                <div class="col-span-2">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                        for="multiple_files">Hình ảnh</label>
-                                    <input
-                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                        id="multiple_files" wire:model.live="images" type="file" multiple>
-                                    @if ($images)
-                                        <ul class="text-blue-400">
-                                            @foreach ($images as $image)
-                                                <li>{{ $image->getClientOriginalName() }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                    @error('images.*') <small class="text-red-500 error">{{ $message }}</small>
-                                    @enderror
-                                </div>
+
                             </div>
 
                             <div class="col-span-2 flex justify-end">
@@ -166,15 +120,31 @@
             </div>
         </div>
 
+        <x-mary-toast />
 
         <!-- table hiển thị -->
-
+        <x-mary-progress wire:loading target="search" class="progress-primary h-0.5" indeterminate />
+        <form class="max-w-96 my-4">
+            <label for="default-search"
+                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="search" id="default-search" wire:model.live="search"
+                    class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                    placeholder="Tìm kiếm..." required />
+            </div>
+        </form>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3"> Hình ảnh </th>
                         <th scope="col" class="px-6 py-3"> Tên Phòng </th>
                         <th scope="col" class="px-6 py-3">Số phòng</th>
                         <th scope="col" class="px-6 py-3">Trạng thái</th>
@@ -189,6 +159,7 @@
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+<<<<<<< HEAD
                                 @if ($room->room_images)
                                     @foreach ($room->room_images->take(1) as $image)
                                         <img class="h-12 w-12 rounded-md" src="{{Storage::url($image->image_url)}}"
@@ -197,6 +168,8 @@
                                 @endif
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+=======
+>>>>>>> backup-commits
                                 {{ $room->name }}
                             </th>
                             <td scope="row" class="px-6 py-4">{{ $room->room_number }}</td>
@@ -281,9 +254,15 @@
                     @endforeach
                 </tbody>
             </table>
+<<<<<<< HEAD
 
             <div class="mt-4">
                 {{ $rooms->links() }}
+=======
+            <div class="my-3">
+                {{ $rooms->links() }}
+
+>>>>>>> backup-commits
             </div>
         </div>
 

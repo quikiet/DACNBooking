@@ -12,31 +12,46 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- boxicon -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     @livewireStyles
 
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+<body class=" font-sans antialiased" theme="mytheme">
+    <div class="sticky top-0 z-50">
         <livewire:layout.navigation />
-
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
-
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
     </div>
+    <!-- <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> -->
+    <div>
+        @yield('content')
+    </div>
+    <!-- Page Heading -->
+
+    <!-- Page Content -->
+    <main>
+        {{ $slot }}
+    </main>
+
+    <div>
+        @livewire('layout.footer')
+
+    </div>
+
+    @yield('script')
+
     @livewireScripts
+    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <!-- Swiper JS -->
+
 
 </body>
 

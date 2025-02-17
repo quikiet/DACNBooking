@@ -2,5 +2,8 @@
 @extends('livewire.admin.dashboard')
 
 @section('content')
-    <h1>hehe</h1>
+<div>
+    @livewire('admin.components.home-dash')
+</div>
+
 @endsection

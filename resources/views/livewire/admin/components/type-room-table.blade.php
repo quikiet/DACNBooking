@@ -1,35 +1,14 @@
 <div>
 
     <!-- toast -->
-    @if (session('message'))
-        <div x-data="{ open: true }">
-            <div class="fixed top-10 right-10 max-w-xs p-4 text-green-500 bg-green-100 rounded-lg shadow-lg dark:bg-green-600 dark:text-white"
-                x-show="open" x-transition @click.away="open = false">
-                <div class="flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 dark:text-green-200"
-                        fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                    </svg>
-                    <span>{{ session('message') }}</span>
-                    <button @click="open = false" class="text-red-500 font-bold">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                            fill="#434343">
-                            <path
-                                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    @endif
+    <x-mary-toast />
 
 
     <div class="container relative px-6 overflow-x-auto sm:rounded-lg" x-data="{open : false}"
-        @close-modal.window="open = false">
-        <div class="flex py-5 justify-between">
+        @close-modal.window="open = false; resetField">
+        <div class="flex py-5 pb-2 justify-between">
 
-            <h1 class="text-2xl font-bold mb-4 text-gray-200">Danh Sách Kiểu Phòng</h1>
+            <h1 class="text-2xl font-bold text-gray-200">Danh Sách Kiểu Phòng</h1>
             <!-- Modal toggle -->
             <button @click="open = !open"
                 class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
@@ -49,7 +28,7 @@
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                                 {{$typeRoomId ? 'Sửa loại phòng' : 'Thêm loại phòng'}}
                             </h3>
-                            <button type=" button" @click="open = false"
+                            <button type=" button" @click="open = false" wire:click="resetField"
                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                 data-modal-toggle="crud-modal">
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -57,11 +36,11 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                 </svg>
-                                <span class="sr-only" @click="open = false">Close modal</span>
+                                <span class="sr-only" @click="open = false" wire:click="resetField">Close modal</span>
                             </button>
                         </div>
                         <!-- Modal body -->
-                        <form class="p-4 md:p-5" wire:submit="{{$typeRoomId ? 'update' : 'add'}}">
+                        <form class="p-4 md:p-5" wire:submit.prevent="{{$typeRoomId ? 'update' : 'add'}}">
                             <div class="grid gap-4 mb-4 grid-cols-2">
                                 <div class="col-span-2">
                                     <label for="name"
@@ -115,8 +94,27 @@
                                         class="text-red-500 error">{{ $message }}</small>
                                     @enderror
                                 </div>
+                                <!-- upload ảnh -->
+                                <div class="col-span-2">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        for="multiple_files">Hình ảnh</label>
+                                    <!-- <input
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                        id="multiple_files" wire:model.live="images" type="file" multiple> -->
+                                    <input type="file" multiple wire:model.live="images"
+                                        class="file-input file-input-bordered w-full max-w-xs" />
+                                    @if ($images)
+                                        <ul class="text-blue-400">
+                                            @foreach ($images as $image)
+                                                <li>{{ $image->getClientOriginalName() }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                    @error('images.*') <small class="text-red-500 error">{{ $message }}</small>
+                                    @enderror
+                                </div>
                             </div>
-                            <button type="submit"
+                            <!-- <button type="submit"
                                 class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -125,7 +123,24 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                                 Xác nhận
+                                <div wire:loading>
+                                </div>
+                            </button> -->
+                            <button type="submit"
+                                class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+
+                                <span wire:loading.remove>Xác nhận</span> <!-- Hiển thị khi không tải -->
+
+                                <span wire:loading>
+                                    <svg class="me-1 -ms-1 w-5 h-5 animate-spin" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </span> <!-- Hiển thị khi đang tải -->
                             </button>
+
                         </form>
                     </div>
                 </div>
@@ -134,13 +149,30 @@
 
         </div>
 
-
+        <x-mary-progress wire:loading target="search" class="progress-primary h-0.5" indeterminate />
+        <form class="max-w-96 my-4">
+            <label for="default-search"
+                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="search" id="default-search" wire:model.live="search"
+                    class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                    placeholder="Tìm kiếm..." required />
+            </div>
+        </form>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <!-- table hiển thị -->
             <table class="w-full text-sm text-left rtl:text-right text-gray-200 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <!-- <th scope="col" class="px-6 py-3">Id</th> -->
+                        <th scope="col" class="px-6 py-3"> Hình ảnh </th>
                         <th scope="col" class="px-6 py-3">Tên kiểu phòng</th>
                         <th scope="col" class="px-6 py-3">Giá</th>
                         <th scope="col" class="px-6 py-3">Người lớn</th>
@@ -154,9 +186,16 @@
                         @foreach ($type_Rooms as $typeRoom)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    @if ($typeRoom->room_images)
+                                        @foreach ($typeRoom->room_images->take(1) as $image)
+                                            <img class="h-12 w-12" src="{{Storage::url($image->image_url)}}" alt="Hình ảnh về phòng">
+                                        @endforeach
+                                    @endif
+                                </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $typeRoom->name }}
                                 </th>
-                                <td class="px-6 py-4">{{ $typeRoom->price }}</td>
+                                <td class="px-6 py-4">{{ number_format($typeRoom->price, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4">{{ $typeRoom->adult }}</td>
                                 <td class="px-6 py-4">{{ $typeRoom->children }}</td>
                                 <td class="px-6 py-4">{{ $typeRoom->description }}</td>
@@ -221,6 +260,10 @@
             </table>
         </div>
 
+        <div class="my-3">
+            <!-- Hiển thị phân trang -->
+            {{ $type_Rooms->links() }}
+        </div>
 
     </div>
 </div>
